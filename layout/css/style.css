@@ -1,0 +1,477 @@
+@font-face {
+  font-family: "Open Sans";
+  src: "/MuseoSans";
+ }
+
+.auth-text {
+
+  /* Авторизация */
+
+position: absolute;
+width: 150px;
+height: 25px;
+margin: 0px 0px 0px 85%;
+font-size: 20px;
+line-height: 24px;
+/* identical to box height, or 120% */
+/* display: flex; */
+align-items: center;
+color: #62C6FF;
+
+}
+
+.auth {
+  /* Vector */
+
+position: absolute;
+margin: 0px 0px 0px 83%;
+}
+
+.logo {
+  height: 80px;
+  position: absolute;
+margin: 13% 0px 0px 41%;
+}
+
+.input {
+  /* Rectangle */
+
+position: absolute;
+width: 678px;
+height: 48px;
+left: 550px;
+top: 390px;
+border: 1px solid #D7D7D7;
+box-sizing: border-box;
+border-radius: 8px;
+
+}
+
+.button {
+  /* Rectangle */
+
+position: absolute;
+width: 112px;
+height: 48px;
+left: 1240px;
+top: 390px;
+background: #62C6FF;
+border-radius: 8px;
+/* Найти */
+
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+
+color: #FFFFFF;
+
+}
+
+.button:hover {background-color: #62C6FF}
+
+.button:active {
+background-color: #62C6FF;
+transform: translateY(6px);
+}
+
+.button:focus {
+  outline: none;
+}
+.input:focus {
+  outline: none;
+}
+
+
+input[type="text"] {
+  background: transparent; /* Прозрачный фон */
+  padding: 1px 4px; /* Поля вокруг текста */
+  color: gray; /* Цвет текста */
+  font-size: 16px;
+  line-height: 24px;
+  padding-left: 16px;
+ }
+
+ a {
+  color: #62C6FF !important;
+  text-decoration: none
+}
+
+input[type="resultsinput"] {
+  background: transparent; /* Прозрачный фон */
+  padding: 1px 4px; /* Поля вокруг текста */
+  color: gray; /* Цвет текста */
+  font-size: 16px;
+  line-height: 24px;
+  padding-left: 16px;
+
+ }
+
+.hist {
+/* История поиска: */
+
+position: absolute;
+width: 196px;
+height: 24px;
+left: 550px;
+top: 466px;
+font-size: 24px;
+line-height: 24px;
+/* identical to box height, or 100% */
+display: flex;
+align-items: center;
+
+color: #474747;
+
+
+}
+
+ul {
+  margin: 3px; /* Обнуляем значение отступов */
+  padding: 28.3%; /* Значение полей */
+  width: 650px;
+  font-size: 16px;
+  line-height: 40px;
+  color: #62C6FF;
+  list-style-type: circle;
+ }
+
+ ul.hr>li:before { content:'◦';
+  margin-right:0.5em; }
+
+ ul li {
+  display: inline; /* Отображать как строчный элемент */
+  margin-right: 15px; /* Отступ слева */
+  padding: 0px; /* Поля вокруг текста */
+      list-style-type: circle;
+
+
+ }
+
+
+ .results_button {
+
+position: absolute;
+width: 112px;
+height: 48px;
+left: 968px;
+top: 46px;
+background: #62C6FF;
+border-radius: 8px;
+
+background: #62C6FF;
+border-radius: 8px;
+/* Найти */
+
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+
+color: #FFFFFF;
+
+}
+
+.results_button:hover {background-color: #62C6FF}
+
+.results_button:active {
+background-color: #62C6FF;
+transform: translateY(6px);
+}
+
+.results_button:focus {
+  outline: none;}
+
+.back-icon {
+/* Vector */
+
+position: absolute;
+left: 4.1%;
+right: 93.49%;
+top: 5.7%;
+bottom: 88.28%;
+height: 45px;
+
+background: #474747;
+
+}
+
+.inputtwo {
+
+position: absolute;
+width: 796px;
+height: 48px;
+left: 148px;
+top: 46px;
+
+border: 1px solid #D7D7D7;
+box-sizing: border-box;
+border-radius: 8px;
+
+
+
+}
+
+hr {
+  /* margin-top: 120px; */
+  /* Line */
+
+position: absolute;
+width: 100%;
+height: 0px;
+left: 0px;
+top: 134px;
+
+border: 1px solid #D7D7D7;
+
+}
+
+
+.auth-text_results {
+
+  /* Авторизация */
+
+position: absolute;
+width: 150px;
+height: 25px;
+margin: 50px 0px 0px 85%;
+font-size: 20px;
+line-height: 24px;
+/* identical to box height, or 120% */
+/* display: flex; */
+align-items: center;
+color: #62C6FF;
+
+}
+
+.auth_results {
+  /* Vector */
+
+position: absolute;
+margin: 50px 0px 0px 83%;
+}
+
+.book-info {
+  position: absolute;
+  margin: 30% 0 0 10%;
+
+}
+
+.author {
+  /* Стивен кинг */
+
+position: absolute;
+width: 106px;
+height: 24px;
+margin: 0px 10px 0px 0px;
+font-family: Museo Sans Cyrl;
+font-size: 18px;
+line-height: 24px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+color: #474747;
+
+opacity: 0.5;
+
+}
+
+.date {
+  /* 1999 г. */
+
+position: absolute;
+width: 44px;
+height: 24px;
+margin: 0px 10px 0px 200px;
+font-size: 14px;
+line-height: 24px;
+/* identical to box height, or 171% */
+display: flex;
+align-items: center;
+
+color: #474747;
+
+opacity: 0.5;
+
+}
+
+.isbn {
+  /* ISBN 2-266-11156 */
+
+position: absolute;
+width: 116px;
+height: 24px;
+margin: 0px 10px 0px 300px;
+font-size: 14px;
+line-height: 24px;
+/* identical to box height, or 171% */
+display: flex;
+align-items: center;
+
+color: #474747;
+
+opacity: 0.5;
+
+}
+
+.book-info {
+  /* border: #474747 solid; */
+  width: 1000px;
+  margin: 10% 0 0 04%;
+}
+
+.info {
+
+height: 24px;
+font-size: 20px;
+line-height: 24px;
+margin: 0px 10px 0px 0px;
+
+color: #474747;
+
+opacity: 0.5;
+
+}
+
+span {
+  padding: 0 35px 0 0;
+}
+
+h2 {
+  margin: 0px 0px 10px 0px;
+  font-size: 24px;
+  font-family: "Open Sans";
+  src: "/Users/Pavel/downloads/front/MuseoSans";
+}
+
+/* Роман Стивена Кинга. Вошёл в список бестселлеров по версии Publishers Weekly за 1999 год в США. В этом романе практически нет фантастики, а те детали, что можно счесть мистическими, вполне объясняются тем, что у героини - легкое нервное расстройство, вызванное шоком, недоеданием и воспалением лёгких. */
+.Fragment {
+width: 873px;
+height: 72px;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+color: #474747;
+
+}
+
+.title {
+  /* Авторизация */
+
+position: absolute;
+width: 126px;
+height: 24px;
+left: 915px;
+top: 236px;
+font-size: 26px;
+line-height: 24px;
+/* identical to box height, or 120% */
+text-align: center;
+font-weight: bold;
+
+color: #474747;
+
+
+}
+
+.email {
+  /* Rectangle */
+
+position: absolute;
+width: 378px;
+height: 48px;
+left: 800px;
+top: 350px;
+
+border: 1px solid #D7D7D7;
+box-sizing: border-box;
+border-radius: 8px;
+
+}
+
+.pwd {
+  /* Rectangle */
+
+position: absolute;
+width: 378px;
+height: 48px;
+left: 800px;
+top: 420px;
+
+border: 1px solid #D7D7D7;
+box-sizing: border-box;
+border-radius: 8px;
+
+}
+
+.enter {
+  /* Rectangle */
+
+  position: absolute;
+  width: 150px;
+  height: 48px;
+  left: 930px;
+  top: 490px;
+  background: #62C6FF;
+  border-radius: 8px;
+  /* Найти */
+
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+
+  color: #FFFFFF;
+
+}
+
+
+.enter:hover {background-color: #62C6FF}
+
+.enter:active {
+background-color: #62C6FF;
+transform: translateY(6px);
+}
+
+.enter:focus {
+  outline: none;}
+
+  input[type="email"] {
+    background: transparent; /* Прозрачный фон */
+    padding: 1px 4px; /* Поля вокруг текста */
+    color: gray; /* Цвет текста */
+    font-size: 16px;
+    line-height: 24px;
+    padding-left: 16px;
+
+   }
+
+   input[type="password"] {
+    background: transparent; /* Прозрачный фон */
+    padding: 1px 4px; /* Поля вокруг текста */
+    color: gray; /* Цвет текста */
+    font-size: 16px;
+    line-height: 24px;
+    padding-left: 16px;
+
+   }
+
+  .create {
+
+    /* Создать аккаунт */
+
+position: absolute;
+width: 200px;
+height: 24px;
+left: 910px;
+top: 540px;
+
+font-family: Museo Sans Cyrl;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+text-align: center;
+
+color: #62C6FF;
+border-radius: 8px;
+
+  }
