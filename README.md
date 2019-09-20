@@ -38,4 +38,19 @@ Also, for the convenience of using the site, you will be asked to register (opti
 
 <h3>Authors</h3>
 
-<b style="color:blue;">pgerasimov</b> & <b style="color:blue;">sergiishevchenko</b>
+<h4>Павел Герасимов:</h4>
+<ul>
+<li><b>Github: https://github.com/pgerasimov</b></li>
+<li><b>Telegram: @gerasimov_p</b></li>
+<li><b>LinkedIn: https://www.linkedin.com/in/pavel-gerasimov-7a7a588a/</b></li>
+<li><b>Mail: gerasimov86@gmail.com</b></li>
+</ul>
+
+<h4>Сергей Шевченко:</h4>
+<ul>
+<li><b>Github: https://github.com/sergiishevchenko</b></li>
+<li><b>Telegram: @sergsheva</b></li>
+<li><b>LinkedIn: https://www.linkedin.com/in/sergii-shevchenko-63b368162/</b></li>
+<li><b>Mail: sergiishevchenko017@gmail.com</b></li>
+</ul>
+
