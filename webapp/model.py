@@ -3,11 +3,12 @@ import datetime
 
 db = SQLAlchemy()
 
+
 class Users(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), unique=True, nullable=False)
-    last_login = db.Column(db.DateTime, default=datetime.datetime.now, nullable=True)
+    last_login = db.Column(db.DateTime, default=datetime.datetime.now)
 
 
 class SearchRequest(db.Model):
@@ -26,7 +27,7 @@ class Authors(db.Model):
 class Books(db.Model):
     book_id = db.Column(db.Integer, primary_key=True)
     book_name = db.Column(db.String(120), unique=True, nullable=False)
-    publication_date = db.Column(db.DateTime, default=datetime.datetime.now, nullable=True)
+    publication_date = db.Column(db.DateTime, default=datetime.datetime.now)
     isbn = db.Column(db.String(120), unique=True, nullable=False)
     author_id = db.Column(db.Integer)
 
