@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 from webapp.forms import LoginForm
 
-
 from webapp.model import db
 
 
@@ -11,10 +10,6 @@ def create_app():
     db.init_app(app)
 
     @app.route('/')
-    def index():
-        return 'Hello World!'
-
-    @app.route('/login')
     def login():
         title = "Авторизация"
         login_form = LoginForm()
