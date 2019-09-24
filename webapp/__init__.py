@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, logout_user
 from webapp.forms import LoginForm, RegistrationForm
 from flask_migrate import Migrate
 from webapp.model import db, Users, SearchRequest, Authors, Books, AdditionalInfo
@@ -32,7 +32,7 @@ def create_app():
         return render_template('registration.html', page_title=title, form=login_form)
 
     @app.route('/process-registration', methods=['POST'])
-    def process_login():
+    def process_registration():
         form = LoginForm()
         if form.validate_on_submit():
             user = Users.query.filter_by(email=form.username.data).first()
@@ -43,5 +43,10 @@ def create_app():
 
         flash('Неправильное имя пользователя или пароль')
         return redirect(url_for('registration'))
+
+    @app.route('/logout')
+    def logout():
+        logout_user()
+        return redirect(url_for('/'))
 
     return app
