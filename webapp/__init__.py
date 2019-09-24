@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from webapp.forms import LoginForm
+from webapp.forms import LoginForm, RegistrationForm
 
 from webapp.model import db
 
@@ -18,7 +18,7 @@ def create_app():
     @app.route('/registration')
     def registration():
         title = "Регистрация"
-        login_form = LoginForm()
+        login_form = RegistrationForm()
         return render_template('registration.html', page_title=title, form=login_form)
 
     return app
