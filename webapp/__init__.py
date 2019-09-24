@@ -15,4 +15,10 @@ def create_app():
         login_form = LoginForm()
         return render_template('login.html', page_title=title, form=login_form)
 
+    @app.route('/registration')
+    def registration():
+        title = "Регистрация"
+        login_form = LoginForm()
+        return render_template('registration.html', page_title=title, form=login_form)
+
     return app
