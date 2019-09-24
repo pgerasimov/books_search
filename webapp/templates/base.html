@@ -11,7 +11,19 @@
     <title>{{ page_title }}</title>
   </head>
   <body>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-warning" role="alert">
+        {% for message in messages %}
+            {{ message }}<br>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
     {% block content %}
+    <a href="/login">login</a><br><br>
+    <a href="/registration">reg</a><br><br>
+    <a href="/logout">logout</a>
     {% endblock %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
