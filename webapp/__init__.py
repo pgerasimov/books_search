@@ -35,13 +35,13 @@ def create_app():
     def process_login():
         form = LoginForm()
         if form.validate_on_submit():
-            user = Users.query.filter_by(username=form.username.data).first()
+            user = Users.query.filter_by(email=form.username.data).first()
             if user and user.check_password(form.password.data):
                 login_user(user)
                 flash('Вы вошли на сайт')
                 return redirect(url_for('index'))
 
         flash('Неправильное имя пользователя или пароль')
-        return redirect(url_for('login'))
+        return redirect(url_for('registration'))
 
     return app
