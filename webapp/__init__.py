@@ -33,10 +33,10 @@ def create_app():
 
     @app.route('/process-registration', methods=['POST'])
     def process_registration():
-        form = LoginForm()
+        form = RegistrationForm()
         if form.validate_on_submit():
-            user = Users.query.filter_by(email=form.username.data).first()
-            if user and user.check_password(form.password.data):
+            user = Users.query.filter_by(username=form.email.data).first()
+            if user and Users.check_password(form.password.data):
                 login_user(user)
                 flash('Вы вошли на сайт')
                 return redirect(url_for('registration'))
