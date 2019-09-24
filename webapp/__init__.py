@@ -31,17 +31,13 @@ def create_app():
         login_form = RegistrationForm()
         return render_template('registration.html', page_title=title, form=login_form)
 
-    @app.route('/process-registration', methods=['POST'])
+    @app.route('/process_registration', methods=['GET', 'POST'])
     def process_registration():
         form = RegistrationForm()
-        if form.validate_on_submit():
-            user = Users.query.filter_by(username=form.email.data).first()
-            if user and Users.check_password(form.password.data):
-                login_user(user)
-                flash('Вы вошли на сайт')
-                return redirect(url_for('registration'))
-
-        flash('Неправильное имя пользователя или пароль')
+        user = Users(email=form.username_reg.data)
+        user.set_password(form.password_reg.data)
+        db.session.add(user)
+        db.session.commit()
         return redirect(url_for('registration'))
 
     @app.route('/logout')
