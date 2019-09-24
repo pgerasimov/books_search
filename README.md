@@ -38,7 +38,7 @@ Also, for the convenience of using the site, you will be asked to register (opti
 
 <h3>Authors</h3>
 
-<h4>Павел Герасимов:</h4>
+<h4>Pavel Gerasimov:</h4>
 <ul>
 <li><b>Github: https://github.com/pgerasimov</b></li>
 <li><b>Telegram: @gerasimov_p</b></li>
@@ -46,7 +46,7 @@ Also, for the convenience of using the site, you will be asked to register (opti
 <li><b>Mail: gerasimov86@gmail.com</b></li>
 </ul>
 
-<h4>Сергей Шевченко:</h4>
+<h4>Sergii Shevchenko:</h4>
 <ul>
 <li><b>Github: https://github.com/sergiishevchenko</b></li>
 <li><b>Telegram: @sergsheva</b></li>
