@@ -41,9 +41,9 @@ def create_app():
                 login_user(user)
                 flash('Вы вошли на сайт')
                 return redirect(url_for('index'))
-
-        flash('Неправильное имя пользователя или пароль')
-        return redirect(url_for('login'))
+            else:
+                flash('Неправильное имя пользователя или парол')
+                return redirect(url_for('login'))
 
     @app.route('/registration')
     def registration():
