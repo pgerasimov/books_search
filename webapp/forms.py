@@ -20,3 +20,17 @@ class RegistrationForm(FlaskForm):
                                  render_kw={"class": "form-control", "placeholder": "Enter Password",
                                             "type": "password"})
     submit_reg = SubmitField('Зарегистрироваться', render_kw={"class": "btn btn-primary", "Type": "submit"})
+
+
+class SearchForm(FlaskForm):
+    search_by_book_name = StringField('Поиск по названию книги',
+                                      render_kw={"class": "form-control", "placeholder": "Введите название книги",
+                                                 "type": "text"})
+
+    search_by_author_name = StringField('Поиск по автору книги',
+                                      render_kw={"class": "form-control", "placeholder": "Введите имя автора книги",
+                                                 "type": "text"})
+    search_by_ISBN = StringField('Поиск по ISBN номеру книги',
+                                      render_kw={"class": "form-control", "placeholder": "Введите ISBN номер книги",
+                                                 "type": "text"})
+    submit_search = SubmitField('Найти', render_kw={"class": "btn btn-primary", "type": "submit"})
