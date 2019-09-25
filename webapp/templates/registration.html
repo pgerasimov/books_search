@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h3>Регистрация</h3>
-<form>
-  <div class="form-group">
-    {{ form.hidden_tag() }}
-  </div>
-</form>
+
 
 <form action="{{ url_for('process_registration') }}" method="POST">
-    <!-- {{ form.hidden_tag() }} -->
+    {{ form.hidden_tag() }}
 
     <div class="form-group">
         {{ form.username_reg.label }}<br>
@@ -20,6 +17,8 @@
     <div class="form-group">
         {{ form.password_reg.label }}<br>
         {{ form.password_reg() }}
+
+
     </div>
 
     <div>
@@ -27,4 +26,5 @@
     </div>
 
 </form>
+
 {% endblock %}
