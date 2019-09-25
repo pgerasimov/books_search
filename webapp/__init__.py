@@ -1,6 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from webapp.forms import LoginForm, RegistrationForm
+from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
 from webapp.model import db, Users, SearchRequest, Authors, Books, AdditionalInfo
 
@@ -21,13 +21,14 @@ def create_app():
 
     @app.route("/")
     def index():
-        return render_template('base.html')
+        form = LoginForm()
+        return render_template('base.html', form=form)
 
     @app.route('/login')
     def login():
         if current_user.is_authenticated:
             flash('Вы уже авторизованы')
-            return redirect(url_for('index'))
+            return redirect(url_for('search'))
 
         title = "Авторизация"
         login_form = LoginForm()
@@ -42,7 +43,7 @@ def create_app():
             if user and user.check_password(form.password.data):
                 login_user(user)
                 flash('Вы вошли на сайт')
-                return redirect(url_for('index'))
+                return redirect(url_for('search'))
 
             else:
                 flash('Неправильное имя пользователя или пароль')
@@ -52,7 +53,7 @@ def create_app():
     def registration():
         if current_user.is_authenticated:
             flash('Вы уже авторизованы')
-            return redirect(url_for('index'))
+            return redirect(url_for('search'))
 
         title = "Регистрация"
         registration_form = RegistrationForm()
@@ -88,12 +89,11 @@ def create_app():
         flash('Вы успешно вышли из системы')
         return redirect(url_for('index'))
 
-    # @app.route('/admin')
-    # @login_required
-    # def admin_index():
-    #     if current_user.is_admin:
-    #         return 'Привет админ'
-    #     else:
-    #         return 'Ты не админ!'
+    @app.route('/search')
+    @login_required
+    def search():
+        title = "Поиск книги"
+        search_form = SearchForm()
+        return render_template('search.html', page_title=title, form=search_form)
 
     return app
