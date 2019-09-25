@@ -11,6 +11,31 @@
     <title>{{ page_title }}</title>
   </head>
   <body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Books Search</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/login">Sign in <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/registration">Sign up</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/search">Search</a>
+      </li>
+          </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
   {% with messages = get_flashed_messages() %}
     {% if messages %}
     <div class="alert alert-warning" role="alert">
@@ -21,9 +46,40 @@
     {% endif %}
 {% endwith %}
     {% block content %}
-    <a href="/login">login</a><br><br>
-    <a href="/registration">reg</a><br><br>
-    <a href="/logout">logout</a>
+      <div class="container">
+
+                <br><br>
+
+<h3>Авторизация</h3>
+
+<form>
+  <div class="form-group">
+    {{ form.hidden_tag() }}
+  </div>
+</form>
+
+<form action="{{ url_for('process_login') }}" method="post">
+  {{ form.hidden_tag() }}
+
+  <div class="form-group">
+    {{ form.username.label }}<br>
+    {{ form.username() }}
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+
+  <div class="form-group">
+    {{ form.password.label }}<br>
+    {{ form.password() }}
+  </div>
+
+  <div>
+    {{ form.submit }}
+  </div>
+
+</form>
+    </div>
+
+
     {% endblock %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
