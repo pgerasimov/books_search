@@ -23,24 +23,24 @@ class Users(db.Model, UserMixin):
 
 
 class SearchRequest(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey('users.id'))
     request_text = db.Column(db.String(120))
     date = db.Column(db.DateTime, default=datetime.datetime.now)
-    research_id = db.Column(db.Integer)
+    research_id = db.Column(db.Integer, primary_key=True)
 
 
 class Authors(db.Model, UserMixin):
-    author_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(120))
     last_name = db.Column(db.String(120))
 
 
 class Books(db.Model, UserMixin):
-    book_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     book_name = db.Column(db.String(120))
     publication_date = db.Column(db.DateTime, default=datetime.datetime.now)
     isbn = db.Column(db.String(120), unique=True)
-    author_id = db.Column(db.Integer)
+    author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
 
 
 class AdditionalInfo(db.Model, UserMixin):
@@ -51,5 +51,5 @@ class AdditionalInfo(db.Model, UserMixin):
     book_coauthor = db.Column(db.String(120))
     book_bio = db.Column(db.String(120))
     book_quantity = db.Column(db.Integer)
-    author_id = db.Column(db.Integer)
-    book_id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
