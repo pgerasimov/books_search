@@ -60,12 +60,12 @@ def create_app():
         if form.submit_reg():
             username = form.username_reg.data
             print(username)
-            if Users.query.filter(Users.email == username).count():
-                flash('Такой пользователь уже есть')
-                return redirect(url_for('registration'))
             password = form.password_reg.data
             new_user = Users(email=username)
             new_user.set_password(password)
+            if Users.query.filter(Users.email == username).count():
+                flash('Такой пользователь уже есть')
+                return redirect(url_for('registration'))
             db.session.add(new_user)
             db.session.commit()
             print('User with id {} added'.format(new_user.email))
