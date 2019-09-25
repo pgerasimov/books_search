@@ -28,6 +28,7 @@ def create_app():
         if current_user.is_authenticated:
             flash('Вы уже авторизованы')
             return redirect(url_for('index'))
+
         title = "Авторизация"
         login_form = LoginForm()
         return render_template('login.html', page_title=title, form=login_form)
