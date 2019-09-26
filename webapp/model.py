@@ -41,9 +41,6 @@ class Books(db.Model, UserMixin):
     publication_date = db.Column(db.DateTime, default=datetime.datetime.now)
     isbn = db.Column(db.String(120), unique=True)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
-
-
-class AdditionalInfo(db.Model, UserMixin):
     book_image = db.Column(db.String(120))
     book_annotation = db.Column(db.String(120))
     book_genre = db.Column(db.String(120))
@@ -51,5 +48,3 @@ class AdditionalInfo(db.Model, UserMixin):
     book_coauthor = db.Column(db.String(120))
     book_bio = db.Column(db.String(120))
     book_quantity = db.Column(db.Integer)
-    author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))

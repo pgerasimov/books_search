@@ -2,7 +2,8 @@ from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
-from webapp.model import db, Users, SearchRequest, Authors, Books, AdditionalInfo
+from webapp.model import db, Users, SearchRequest, Authors, Books
+import logging
 
 
 def create_app():
@@ -10,6 +11,12 @@ def create_app():
     app.config.from_pyfile('config.py')
     db.init_app(app)
     migrate = Migrate(app, db)
+
+    logging.basicConfig(filename='app.log',
+                        filemode='w',
+                        level=logging.ERROR,
+                        datefmt='%m/%d/%Y %I:%M:%S %p',
+                        format='%(name)s - %(levelname)s - %(message)s')
 
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -47,6 +54,7 @@ def create_app():
 
             else:
                 flash('Неправильное имя пользователя или пароль')
+                logging.error('Неправильное имя пользователя или пароль')
                 return redirect(url_for('login'))
 
     @app.route('/registration')
@@ -70,6 +78,7 @@ def create_app():
 
             if Users.query.filter(Users.email == username).count():
                 flash('Такой пользователь уже есть')
+                logging.error('Такой пользователь уже есть')
                 return redirect(url_for('registration'))
 
             new_user = Users(email=username)
@@ -80,7 +89,8 @@ def create_app():
             flash('Вы успешно зарегистрировались')
             return redirect(url_for('index'))
 
-        flash('Пароль должен содеражть хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+        flash('Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+        logging.error('Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
         return redirect(url_for('registration'))
 
     @app.route('/logout')
