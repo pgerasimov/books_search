@@ -31,8 +31,7 @@ class SearchRequest(db.Model, UserMixin):
 
 class Authors(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(120))
-    last_name = db.Column(db.String(120))
+    name = db.Column(db.String(120))
     author_bio = db.Column(db.String(120))
 
 
