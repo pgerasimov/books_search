@@ -2,6 +2,7 @@ from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
@@ -47,3 +48,5 @@ class Books(db.Model, UserMixin):
     book_coauthor = db.Column(db.String(120))
     book_quantity = db.Column(db.Integer)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
+
+    thread = relationship('Authors')
