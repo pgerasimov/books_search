@@ -136,6 +136,12 @@ def create_app():
 
     @app.route('/profile')
     def profile():
-        return render_template('profile.html')
+        title = "Об авторе"
+        return render_template('profile.html', page_title=title)
+
+    @app.route('/about_book')
+    def about_book():
+        title = "О книге"
+        return render_template('book.html', page_title=title)
 
     return app
