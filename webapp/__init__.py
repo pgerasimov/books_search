@@ -134,4 +134,8 @@ def create_app():
         return render_template('search_result.html', page_title=title, book_info=book_name,
                                author_name=author_books_id, isbn=isbn)
 
+    @app.route('/profile')
+    def profile():
+        return render_template('profile.html')
+
     return app
