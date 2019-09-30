@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+<br><br>
+
+<h3>Поиск книг по названию, автору и ISBN номеру</h3>
+<br><br>
+
+
+<form action="{{ url_for('process_search') }}" method="post" class="input-group mb-3">
+  {{ form.hidden_tag() }}
+
+<div class="input-group mb-3">
+     {{ form.search_by_book_name() }}
+
+</div>
+
+    <div class="input-group mb-3">
+     {{ form.search_by_author_name() }}
+
+</div>
+
+    <div class="input-group mb-3">
+     {{ form.search_by_ISBN() }}
+
+</div>
+
+    {{ form.submit_search }}
+
+</form>
+    </div>
+
+{% endblock %}
+
+
