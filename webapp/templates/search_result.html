@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <br><br>
+
+    <h3>Результаты поиска</h3>
+    <br><br>
+
+    {% for book in book_info %}
+
+    <br> {{ book.book_name }}<br>
+    <br> {{ book.publication_date }}<br>
+    <br> {{ book.book_annotation }}<br>
+    <br> {{ book.book_image }}<br>
+    <br> {{ book.isbn }}<br>
+    <br> {{ book.book_genre }}<br>
+    <br> {{ book.book_publisher }}<br>
+    <br> {{ book.book_quantity }}<br>
+    <hr>
+
+
+    {% endfor %}
+
+    {% for author in author_name %}
+
+    <br> {{ author.book_name }}<br>
+    <br> {{ author.publication_date }}<br>
+    <br> {{ author.book_annotation }}<br>
+    <br> {{ author.book_image }}<br>
+    <br> {{ author.isbn }}<br>
+    <br> {{ author.book_genre }}<br>
+    <br> {{ author.book_publisher }}<br>
+    <br> {{ author.book_quantity }}<br>
+    <hr>
+
+
+    {% endfor %}
+
+    {% for num in isbn %}
+
+    <br> {{ num.book_name }}<br>
+    <br> {{ num.publication_date }}<br>
+    <br> {{ num.book_annotation }}<br>
+    <br> {{ num.book_image }}<br>
+    <br> {{ num.isbn }}<br>
+    <br> {{ num.book_genre }}<br>
+    <br> {{ num.book_publisher }}<br>
+    <br> {{ num.book_quantity }}<br>
+    <hr>
+
+    {% endfor %}
+
+    </div>
+
+    {%endblock%}

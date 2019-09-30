@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
@@ -89,7 +89,8 @@ def create_app():
             return redirect(url_for('index'))
 
         flash('Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
-        logging.error('Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+        logging.error(
+            'Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
         return redirect(url_for('registration'))
 
     @app.route('/logout')
@@ -104,5 +105,34 @@ def create_app():
         title = "Поиск книги"
         search_form = SearchForm()
         return render_template('search.html', page_title=title, form=search_form)
+
+    @app.route('/process-search', methods=['POST'])
+    def process_search():
+        title = "Поиск книги"
+        all_args = request.form.to_dict()
+        author_id = ''
+
+        book_name = Books.query.filter_by(book_name=all_args['search_by_book_name']).all()
+
+        # TODO: Пофиксить баг когда авторов несколько
+        author_object = Authors.query.filter_by(name=all_args['search_by_author_name']).all()
+        for author in author_object:
+            author_id = author.id
+        author_books_id = Books.query.filter_by(author_id=author_id).all()
+
+        isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
+
+        return render_template('search_result.html', page_title=title, book_info=book_name,
+                               author_name=author_books_id, isbn=isbn)
+
+    @app.route('/profile')
+    def profile():
+        title = "Об авторе"
+        return render_template('profile.html', page_title=title)
+
+    @app.route('/about_book')
+    def about_book():
+        title = "О книге"
+        return render_template('book.html', page_title=title)
 
     return app
