@@ -109,6 +109,7 @@ def create_app():
     @app.route('/process-search', methods=['POST'])
     def process_search():
         title = "Поиск книги"
+        search_form = SearchForm()
         all_args = request.form.to_dict()
         author_id = ''
 
@@ -122,8 +123,8 @@ def create_app():
 
         isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
 
-        return render_template('search_result.html', page_title=title, book_info=book_name,
-                               author_name=author_books_id, isbn=isbn)
+        if search_form.validate_on_submit():
+            return render_template('book.html', name=search_form.search_by_book_name.data)
 
     @app.route('/profile')
     def profile():
