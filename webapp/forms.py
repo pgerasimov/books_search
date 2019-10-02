@@ -19,6 +19,9 @@ class RegistrationForm(FlaskForm):
     password_reg = PasswordField('Password', validators=[DataRequired(), Regexp(regexp)],
                                  render_kw={"class": "form-control", "placeholder": "Enter Password",
                                             "type": "password"})
+    password_reg_confirm = PasswordField('Password', validators=[DataRequired(), Regexp(regexp)],
+                                 render_kw={"class": "form-control", "placeholder": "Confirm Password",
+                                            "type": "password"})
     submit_reg = SubmitField('Зарегистрироваться', render_kw={"class": "btn btn-primary", "Type": "submit"})
 
 

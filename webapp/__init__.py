@@ -74,10 +74,15 @@ def create_app():
 
             username = form.username_reg.data
             password = form.password_reg.data
+            password_confirm = form.password_reg_confirm.data
 
             if Users.query.filter(Users.email == username).count():
                 flash('Такой пользователь уже есть')
                 logging.error('Такой пользователь уже есть')
+                return redirect(url_for('registration'))
+
+            if not password == password_confirm:
+                flash('Пароли не совпадают. Повторите ввод')
                 return redirect(url_for('registration'))
 
             new_user = Users(email=username)
