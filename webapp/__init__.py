@@ -28,7 +28,7 @@ def create_app():
     @app.route("/")
     def index():
         form = LoginForm()
-        return render_template('base.html', form=form)
+        return render_template('base.html', form=form, active='index')
 
     @app.route('/login')
     def login():
@@ -38,7 +38,7 @@ def create_app():
 
         title = "Авторизация"
         login_form = LoginForm()
-        return render_template('login.html', page_title=title, form=login_form)
+        return render_template('login.html', page_title=title, form=login_form, active='login')
 
     @app.route('/process-login', methods=['POST'])
     def process_login():
@@ -64,7 +64,7 @@ def create_app():
 
         title = "Регистрация"
         registration_form = RegistrationForm()
-        return render_template('registration.html', page_title=title, form=registration_form)
+        return render_template('registration.html', page_title=title, form=registration_form, active='registration')
 
     @app.route('/process_registration', methods=['POST'])
     def process_registration():
@@ -109,7 +109,7 @@ def create_app():
     def search():
         title = "Поиск книги"
         search_form = SearchForm()
-        return render_template('search.html', page_title=title, form=search_form)
+        return render_template('search.html', page_title=title, form=search_form, active='search')
 
     @app.route('/process-search', methods=['POST'])
     def process_search():
