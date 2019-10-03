@@ -118,23 +118,21 @@ def create_app():
         author_id = ''
 
         book_name = Books.query.filter_by(book_name=all_args['search_by_book_name']).all()
-
-        # TODO: Пофиксить баг когда авторов несколько
         author_object = Authors.query.filter_by(name=all_args['search_by_author_name']).all()
-        for author in author_object:
-            author_id = author.id
+        if author_object != []:
+            author_id = author_object[0].id
         author_books_id = Books.query.filter_by(author_id=author_id).all()
-
         isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
 
         return render_template('search_result.html', page_title=title, book_info=book_name,
-                               author_name=author_object, isbn=isbn)
+                               author_name=author_books_id, isbn=isbn)
 
     @app.route('/profile/<id>')
     def profile(id):
         title = "Об авторе"
-        all_authors = Authors.query.filter_by(id=id).all()
-        for person in all_authors:
+        all_books_of_author = Books.query.filter_by(id=id).all()
+        print(all_books_of_author)
+        for person in all_books_of_author:
             return render_template('profile.html', page_title=title, person=person)
 
     @app.route('/about_book/<id>')
