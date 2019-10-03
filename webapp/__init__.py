@@ -109,7 +109,6 @@ def create_app():
     @app.route('/process-search', methods=['POST'])
     def process_search():
         title = "Поиск книги"
-        search_form = SearchForm()
         all_args = request.form.to_dict()
         author_id = ''
 
@@ -123,17 +122,21 @@ def create_app():
 
         isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
 
-        if search_form.validate_on_submit():
-            return render_template('book.html', name=search_form.search_by_book_name.data)
+        return render_template('search_result.html', page_title=title, book_info=book_name,
+                               author_name=author_object, isbn=isbn)
 
-    @app.route('/profile')
-    def profile():
+    @app.route('/profile/<id>')
+    def profile(id):
         title = "Об авторе"
-        return render_template('profile.html', page_title=title)
+        all_authors = Authors.query.filter_by(id=id).all()
+        for person in all_authors:
+            return render_template('profile.html', page_title=title, person=person)
 
-    @app.route('/about_book')
-    def about_book():
+    @app.route('/about_book/<id>')
+    def about_book(id):
         title = "О книге"
-        return render_template('book.html', page_title=title)
+        books = Books.query.filter_by(id=id).all()
+        for book in books:
+            return render_template('book.html', page_title=title, book=book)
 
     return app
