@@ -11,7 +11,7 @@
 
     {% for book in book_info %}
 
-    <br> {{ book.book_name }}<br>
+    <br><a href="{{ url_for('about_book', id = book.id) }}">{{ book.book_name }}</a></br>
     <br> {{ book.publication_date }}<br>
     <br> {{ book.book_annotation }}<br>
     <br> {{ book.book_image }}<br>
@@ -26,7 +26,7 @@
 
     {% for author in author_name %}
 
-    <br> {{ author.book_name }}<br>
+    <br><a href="{{ url_for('profile', id = author.id) }}">{{ author.name }}</a></br>
     <br> {{ author.publication_date }}<br>
     <br> {{ author.book_annotation }}<br>
     <br> {{ author.book_image }}<br>
