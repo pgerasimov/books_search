@@ -117,22 +117,31 @@ def create_app():
         all_args = request.form.to_dict()
         author_id = ''
 
+        # field Books
         book_name = Books.query.filter_by(book_name=all_args['search_by_book_name']).all()
+        # field Authors
         author_object = Authors.query.filter_by(name=all_args['search_by_author_name']).all()
         if author_object != []:
             author_id = author_object[0].id
+            name_of_author = Authors.query.filter_by(id=author_id).all()[0].name
+        else:
+            for book in book_name:
+                name_of_author = Authors.query.filter_by(id=book.author_id)[0].name
         author_books_id = Books.query.filter_by(author_id=author_id).all()
+        # field ISBN
         isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
+        for item in isbn:
+            name_of_author = Authors.query.filter_by(id=Books.author_id)[0].name
 
         return render_template('search_result.html', page_title=title, book_info=book_name,
-                               author_name=author_books_id, isbn=isbn)
+                                    author_name=author_books_id, name_of_author=name_of_author, isbn=isbn)
 
     @app.route('/profile/<id>')
     def profile(id):
         title = "Об авторе"
         all_books_of_author = Books.query.filter_by(id=id).all()
-        print(all_books_of_author)
         for person in all_books_of_author:
+            person = Authors.query.filter_by(id=person.author_id)[0]
             return render_template('profile.html', page_title=title, person=person)
 
     @app.route('/about_book/<id>')
