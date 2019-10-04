@@ -8,9 +8,9 @@
 
     <h3>Результаты поиска</h3>
     <br><br>
-
+    
     {% for book in book_info %}
-
+    <br><a href="{{ url_for('profile', id = book.id) }}">{{ name_of_author }}</a><br>
     <br><a href="{{ url_for('about_book', id = book.id) }}">{{ book.book_name }}</a></br>
     <br> {{ book.publication_date }}<br>
     <br> {{ book.book_annotation }}<br>
@@ -20,13 +20,12 @@
     <br> {{ book.book_publisher }}<br>
     <br> {{ book.book_quantity }}<br>
     <hr>
-
-
     {% endfor %}
 
+    
     {% for author in author_name %}
-    <br> {{ author.id }}<br>
-    <br><a href="{{ url_for('profile', id = author.id) }}">{{ author.book_name }}</a></br>
+    <br><a href="{{ url_for('profile', id = author.id) }}">{{ name_of_author }}</a><br>
+    <br><a href="{{ url_for('about_book', id = author.id) }}">{{ author.book_name }}</a></br>
     <br> {{ author.publication_date }}<br>
     <br> {{ author.book_annotation }}<br>
     <br> {{ author.book_image }}<br>
@@ -35,22 +34,20 @@
     <br> {{ author.book_publisher }}<br>
     <br> {{ author.book_quantity }}<br>
     <hr>
-
-
     {% endfor %}
 
+    
     {% for num in isbn %}
-
-    <br>{{ num.book_name }}</br>
+    <br><a href="{{ url_for('profile', id = num.id) }}">{{ name_of_author }}</a><br>
+    <br><a href="{{ url_for('about_book', id = num.id) }}">{{ num.book_name }}</a><br>
     <br> {{ num.publication_date }}<br>
     <br> {{ num.book_annotation }}<br>
     <br> {{ num.book_image }}<br>
-    <br><a href="{{ url_for('about_book', id = num.id) }}">{{ num.isbn }}</a><br>
+    <br> {{ num.isbn }}<br>
     <br> {{ num.book_genre }}<br>
     <br> {{ num.book_publisher }}<br>
     <br> {{ num.book_quantity }}<br>
     <hr>
-
     {% endfor %}
 
     </div>
