@@ -2,7 +2,7 @@ from flask import Flask, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
-from webapp.model import db, Users, SearchRequest, Authors, Books
+from webapp.model import db, Users, SearchRequest, Authors, Books, CountBook
 import logging
 
 def create_app():
@@ -119,6 +119,34 @@ def create_app():
 
         # field Books
         book_name = Books.query.filter_by(book_name=all_args['search_by_book_name']).all()
+        if book_name != []:
+            for book in book_name:
+                all_search_requests = SearchRequest.query.all()
+                if all_search_requests == []:
+                    book_name_request = SearchRequest(book_name_request=book.book_name, id=book.id)
+                    db.session.add(book_name_request)
+                    db.session.commit()
+                    v = CountBook()  # create new item in CountBook
+                    v.book_id = book.id
+                    v.count += 1
+                    db.session.add(v)
+                    db.session.commit()
+                else:
+                    all_requests_id = SearchRequest.query.filter_by(id=book.id).all()
+                    if all_requests_id != []:
+                        all_counts = CountBook.query.filter_by(book_id=book.id).all()
+                        all_counts[0].count += 1
+                        db.session.add(all_counts[0])
+                        db.session.commit()
+                    else:
+                        book_name_request = SearchRequest(book_name_request=book.book_name, id=book.id)
+                        db.session.add(book_name_request)
+                        db.session.commit()
+                        v = CountBook()
+                        v.count += 1
+                        v.book_id = book.id
+                        db.session.add(v)
+                        db.session.commit()
         # field Authors
         author_object = Authors.query.filter_by(name=all_args['search_by_author_name']).all()
         if author_object != []:
@@ -128,10 +156,65 @@ def create_app():
             for book in book_name:
                 name_of_author = Authors.query.filter_by(id=book.author_id)[0].name
         author_books_id = Books.query.filter_by(author_id=author_id).all()
+        if author_books_id != []:
+            for book in author_books_id:
+                all_search_requests = SearchRequest.query.all()
+                if all_search_requests == []:
+                    book_name_request = SearchRequest(book_name_request=book.book_name, id=book.id)
+                    db.session.add(book_name_request)
+                    db.session.commit()
+                    v = CountBook()  # create new item in CountBook
+                    v.book_id = book.id
+                    v.count += 1
+                    db.session.add(v)
+                    db.session.commit()
+                else:
+                    all_requests_id = SearchRequest.query.filter_by(id=book.id).all()
+                    if all_requests_id != []:
+                        all_counts = CountBook.query.filter_by(book_id=book.id).all()
+                        all_counts[0].count += 1
+                        db.session.add(all_counts[0])
+                        db.session.commit()
+                    else:
+                        book_name_request = SearchRequest(book_name_request=book.book_name, id=book.id)
+                        db.session.add(book_name_request)
+                        db.session.commit()
+                        v = CountBook()
+                        v.count += 1
+                        v.book_id = book.id
+                        db.session.add(v)
+                        db.session.commit()
         # field ISBN
         isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
-        for item in isbn:
-            name_of_author = Authors.query.filter_by(id=Books.author_id)[0].name
+        if isbn != []:
+            for book in isbn:
+                name_of_author = Authors.query.filter_by(id=Books.author_id)[0].name
+                all_search_requests = SearchRequest.query.all()
+                if all_search_requests == []:
+                    book_name_request = SearchRequest(book_name_request=book.book_name, id=book.id)
+                    db.session.add(book_name_request)
+                    db.session.commit()
+                    v = CountBook()  # create new item in CountBook
+                    v.book_id = book.id
+                    v.count += 1
+                    db.session.add(v)
+                    db.session.commit()
+                else:
+                    all_requests_id = SearchRequest.query.filter_by(id=book.id).all()
+                    if all_requests_id != []:
+                        all_counts = CountBook.query.filter_by(book_id=book.id).all()
+                        all_counts[0].count += 1
+                        db.session.add(all_counts[0])
+                        db.session.commit()
+                    else:
+                        book_name_request = SearchRequest(book_name_request=book.book_name, id=book.id)
+                        db.session.add(book_name_request)
+                        db.session.commit()
+                        v = CountBook()
+                        v.count += 1
+                        v.book_id = book.id
+                        db.session.add(v)
+                        db.session.commit()
 
         return render_template('search_result.html', page_title=title, book_info=book_name,
                                     author_name=author_books_id, name_of_author=name_of_author, isbn=isbn)
