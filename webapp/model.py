@@ -25,9 +25,18 @@ class Users(db.Model, UserMixin):
 
 class SearchRequest(db.Model, UserMixin):
     research_id = db.Column(db.Integer, primary_key=True)
-    request_text = db.Column(db.String(120))
+    book_name_request = db.Column(db.String(120))
     date = db.Column(db.DateTime, default=datetime.datetime.now)
-    id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    id = db.Column(db.Integer)
+
+
+class CountBook(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer)
+    count = db.Column(db.Integer)
+
+    def __init__(self):
+        self.count = 0
 
 
 class Authors(db.Model, UserMixin):
@@ -48,5 +57,3 @@ class Books(db.Model, UserMixin):
     book_coauthor = db.Column(db.String(120))
     book_quantity = db.Column(db.Integer)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
-
-    thread = relationship('Authors')
