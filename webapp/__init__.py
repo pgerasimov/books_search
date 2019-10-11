@@ -1,9 +1,12 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+
+from webapp.find_book import find_book_in_db
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
-from webapp.model import db, Users, SearchRequest, Authors, Books, CountBook
+from webapp.model import db, Users, SearchRequest, Authors, Books
 import logging
+
 
 def create_app():
     app = Flask(__name__)
@@ -115,37 +118,18 @@ def create_app():
     def process_search():
         title = "Поиск книги"
         all_args = request.form.to_dict()
-        author_id = ''
 
-        # field Books
-        all_books = Books.query.filter_by(book_name=all_args['search_by_book_name']).all()
-        if all_books != []:
-            for item in all_books:
-                name_of_author = Authors.query.filter_by(id=item.author_id)[0].name
+        find_book_in_db(all_args)
 
-        # field Authors
-        all_authors = Authors.query.filter_by(name=all_args['search_by_author_name']).all()
-        if all_authors != []:
-            name_of_author = Authors.query.filter_by(id=all_authors[0].id).all()[0].name
-            author_books_id = Books.query.filter_by(author_id=all_authors[0].id).all()
-        else:
-            author_books_id = []
-
-        # field ISBN
-        isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
-        if isbn != []:
-            for book in isbn:
-                name_of_author = Authors.query.filter_by(id=book.id)[0].name
-
-        return render_template('search_result.html', page_title=title, book_info=all_books,
-                                    author_name=author_books_id, name_of_author=name_of_author, isbn=isbn)
+        return render_template('search_result.html', page_title=title, book_info=book_name,
+                               author_name=author_books_id, isbn=isbn)
 
     @app.route('/profile/<id>')
     def profile(id):
         title = "Об авторе"
         all_books_of_author = Books.query.filter_by(id=id).all()
+        print(all_books_of_author)
         for person in all_books_of_author:
-            person = Authors.query.filter_by(id=person.author_id)[0]
             return render_template('profile.html', page_title=title, person=person)
 
     @app.route('/about_book/<id>')
@@ -153,20 +137,7 @@ def create_app():
         title = "О книге"
         books = Books.query.filter_by(id=id).all()
         for book in books:
-            all_search_requests = SearchRequest.query.filter_by(id=book.id).all()
-            if all_search_requests == []:
-                book_name_request = SearchRequest(book_name_request=book.book_name, id=book.id)
-                db.session.add(book_name_request)
-                v = CountBook()
-                v.book_id = book.id
-                v.count += 1
-                db.session.add(v)
-                db.session.commit()
-            else:
-                all_counts = CountBook.query.filter_by(book_id=book.id).all()
-                all_counts[0].count += 1
-                db.session.add(all_counts[0])
-                db.session.commit()
             return render_template('book.html', page_title=title, book=book)
 
     return app
+

@@ -25,18 +25,9 @@ class Users(db.Model, UserMixin):
 
 class SearchRequest(db.Model, UserMixin):
     research_id = db.Column(db.Integer, primary_key=True)
-    book_name_request = db.Column(db.String(120))
+    request_text = db.Column(db.String(120))
     date = db.Column(db.DateTime, default=datetime.datetime.now)
-    id = db.Column(db.Integer)
-
-
-class CountBook(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer)
-    count = db.Column(db.Integer)
-
-    def __init__(self):
-        self.count = 0
+    id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
 class Authors(db.Model, UserMixin):
@@ -48,12 +39,15 @@ class Authors(db.Model, UserMixin):
 class Books(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     book_name = db.Column(db.String(120))
-    publication_date = db.Column(db.DateTime, default=datetime.datetime.now)
-    isbn = db.Column(db.String(120), unique=True)
-    book_image = db.Column(db.String(120))
-    book_annotation = db.Column(db.String(120))
-    book_genre = db.Column(db.String(120))
-    book_publisher = db.Column(db.String(120))
-    book_coauthor = db.Column(db.String(120))
-    book_quantity = db.Column(db.Integer)
+    publication_date = db.Column(db.String(120), nullable=True)
+    isbn = db.Column(db.String(120), nullable=True)
+    book_image = db.Column(db.String(120), nullable=True)
+    book_annotation = db.Column(db.String(1200), nullable=True)
+    book_genre = db.Column(db.String(120), nullable=True)
+    book_publisher = db.Column(db.String(120), nullable=True)
+    book_coauthor = db.Column(db.String(120), nullable=True)
+    book_quantity = db.Column(db.Integer, nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
+
+    thread = relationship('Authors')
+
