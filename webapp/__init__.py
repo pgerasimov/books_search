@@ -118,11 +118,10 @@ def create_app():
     def process_search():
         title = "Поиск книги"
         all_args = request.form.to_dict()
+        all_args.pop('csrf_token')
+        all_args.pop('submit_search')
 
-        find_book_in_db(all_args)
-
-        return render_template('search_result.html', page_title=title, book_info=book_name,
-                               author_name=author_books_id, isbn=isbn)
+        return find_book_in_db(all_args)
 
     @app.route('/profile/<id>')
     def profile(id):
@@ -140,4 +139,3 @@ def create_app():
             return render_template('book.html', page_title=title, book=book)
 
     return app
-
