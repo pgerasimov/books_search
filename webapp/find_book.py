@@ -40,8 +40,6 @@ def find_book_in_db(all_args):
 # Take book from API and put in DB
 def find_book_in_api(all_args):
     author = []
-    book_dict = defaultdict(lambda: "no_key", key="no_value")
-
     request = all_args['search_by_book_name']
     books_by_author_id = []
     request_data = {'printType': 'books', 'maxResults': '40', 'q': request}
