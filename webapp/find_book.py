@@ -1,5 +1,5 @@
 import requests
-from flask import render_template, flash
+from flask import flash
 
 from webapp.model import db, Books, Authors
 
