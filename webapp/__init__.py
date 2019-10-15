@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 
-from webapp.find_book import find_book_in_db
+from webapp.find_book import find_book_in_db, find_book_in_api
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
 from webapp.model import db, Users, SearchRequest, Authors, Books
@@ -121,13 +121,27 @@ def create_app():
         all_args.pop('csrf_token')
         all_args.pop('submit_search')
 
-        return find_book_in_db(all_args)
+        db_request = find_book_in_db(all_args)
+        book_name = db_request[0]
+        books_by_author_id = db_request[1]
+        isbn = db_request[2]
+
+        if book_name == [] and books_by_author_id == [] and isbn == [] and all_args['search_by_book_name'] != '':
+
+            api_request = find_book_in_api(all_args)
+
+            book_name = api_request[0]
+            books_by_author_id = api_request[1]
+            isbn = books_by_author_id = api_request[2]
+
+        return render_template('search_result.html', page_title=title, book_info=book_name,
+                               author_name=books_by_author_id, isbn=isbn)
 
     @app.route('/profile/<id>')
     def profile(id):
         title = "Об авторе"
         all_books_of_author = Books.query.filter_by(id=id).all()
-        print(all_books_of_author)
+
         for person in all_books_of_author:
             return render_template('profile.html', page_title=title, person=person)
 

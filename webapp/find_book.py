@@ -6,18 +6,26 @@ from webapp.model import db, Books, Authors
 
 # Take book from our DB if exist
 def find_book_in_db(all_args):
-    title = "Поиск книги"
     books_by_author_id = []
 
     book_name_request = all_args['search_by_book_name'].title()
     search_book = "%{}%".format(book_name_request)
 
+    author_name_request = all_args['search_by_author_name'].title()
+    search_author = "%{}%".format(author_name_request)
+
     if search_book == '%%':
         search_book = ''
 
+    if search_author == '%%':
+        search_author = ''
+
+    else:
+        pass
+
     book_name = Books.query.filter(Books.book_name.like(search_book)).all()
 
-    check_author = Authors.query.filter_by(name=all_args['search_by_author_name']).all()
+    check_author = Authors.query.filter(Authors.name.like(search_author)).all()
 
     if check_author:
         books_by_author_id = Books.query.filter_by(author_id=check_author[0].id).all()
@@ -26,20 +34,14 @@ def find_book_in_db(all_args):
 
     isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
 
-    if search_book and not book_name:
-        find_book_in_api(all_args)
-    else:
-        pass
-
-    return render_template('search_result.html', page_title=title, book_info=book_name,
-                           author_name=books_by_author_id, isbn=isbn)
+    return book_name, books_by_author_id, isbn
 
 
 # Take book from API and put in DB
 def find_book_in_api(all_args):
     author = []
     request = all_args['search_by_book_name']
-
+    books_by_author_id = []
     request_data = {'printType': 'books', 'maxResults': '40', 'q': request}
     headers = {'Content-Type': 'application/json'}
     result = requests.get('https://www.googleapis.com/books/v1/volumes', params=request_data, headers=headers).json()
@@ -86,10 +88,27 @@ def find_book_in_api(all_args):
                                      book_annotation=description, author_id=author_in_db.id)
                     db.session.add(new_book)
                     db.session.commit()
+
                 except (UnboundLocalError, AttributeError):
                     pass
 
         flash('Книги добавлены в базу из Google Books API')
 
-        find_book_in_db(all_args)
-        return 'Books added'
+        book_name_request = all_args['search_by_book_name'].title()
+        search_book = "%{}%".format(book_name_request)
+
+        if search_book == '%%':
+            search_book = ''
+
+        book_name = Books.query.filter(Books.book_name.like(search_book)).all()
+
+        check_author = Authors.query.filter_by(name=all_args['search_by_author_name']).all()
+
+        if check_author:
+            books_by_author_id = Books.query.filter_by(author_id=check_author[0].id).all()
+        else:
+            pass
+
+        isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
+
+        return book_name, books_by_author_id, isbn
