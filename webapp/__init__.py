@@ -130,10 +130,12 @@ def create_app():
         if book_name == [] and books_by_author_id == [] and isbn == [] and all_args['search_by_book_name'] != '':
 
             api_request = find_book_in_api(all_args)
+            print(api_request)
 
             book_name = api_request[0]
             books_by_author_id = api_request[1]
             isbn = books_by_author_id = api_request[2]
+            dict_book_author = db_request[3]
 
         return render_template('search_result.html', page_title=title, book_info=book_name, name_of_author=dict_book_author,
                                author_name=books_by_author_id, isbn=isbn)
@@ -141,7 +143,7 @@ def create_app():
     @app.route('/profile/<id>')
     def profile(id):
         title = "Об авторе"
-        all_books_of_author = Books.query.filter_by(id=id).all()
+        all_books_of_author = Books.query.filter_by(author_id=id).all()
         for person in all_books_of_author:
             authors = Authors.query.filter_by(id=person.author_id)[0]
             return render_template('profile.html', page_title=title, person=authors)
