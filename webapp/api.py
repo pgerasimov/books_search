@@ -3,11 +3,11 @@ import requests
 
 def get_token():
 
-    request_data = {'login': '79260657755', 'type': 'patient', 'password': 'aft453kt'}
+    request_data = {'login': 'login', 'type': 'patient', 'password': 'password'}
 
     headers = {'Content-Type': 'application/json'}
 
-    response = requests.post('https://api.ibolit.pro/api/v3/check-password', params=request_data, headers=headers)
+    response = requests.post('url', params=request_data, headers=headers)
 
     result = response.json()
 
