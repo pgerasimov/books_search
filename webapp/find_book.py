@@ -25,16 +25,36 @@ def find_book_in_db(all_args):
 
     book_name = Books.query.filter(Books.book_name.like(search_book)).all()
 
+    if book_name:
+        dict_book_author = {}
+        for book in book_name:
+            name_of_author = Authors.query.filter_by(id=book.author_id)[0].name
+            dict_book_author[book] = name_of_author
+    else:
+        pass
+
     check_author = Authors.query.filter(Authors.name.like(search_author)).all()
 
     if check_author:
         books_by_author_id = Books.query.filter_by(author_id=check_author[0].id).all()
+        dict_book_author = {}
+        for book in books_by_author_id:
+            name_of_author = Authors.query.filter_by(id=book.author_id)[0].name
+            dict_book_author[book] = name_of_author
     else:
         pass
 
     isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
 
-    return book_name, books_by_author_id, isbn
+    if isbn:
+        dict_book_author = {}
+        for book in isbn:
+            name_of_author = Authors.query.filter_by(id=book.author_id)[0].name
+            dict_book_author[book] = name_of_author
+    else:
+        pass
+
+    return book_name, books_by_author_id, isbn, dict_book_author
 
 
 # Take book from API and put in DB
