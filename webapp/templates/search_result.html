@@ -10,7 +10,7 @@
     <br><br>
     
     {% for book in book_info %}
-    <br><a href="{{ url_for('profile', id = book.id) }}">{{ name_of_author }}</a><br>
+    <br><a href="{{ url_for('profile', id = book.id) }}">{{ name_of_author[book] }}</a><br>
     <br><a href="{{ url_for('about_book', id = book.id) }}">{{ book.book_name }}</a></br>
     <br> {{ book.publication_date }}<br>
     <br> {{ book.book_annotation }}<br>
@@ -24,7 +24,7 @@
 
     
     {% for author in author_name %}
-    <br><a href="{{ url_for('profile', id = author.id) }}">{{ name_of_author }}</a><br>
+    <br><a href="{{ url_for('profile', id = author.id) }}">{{ name_of_author[author] }}</a><br>
     <br><a href="{{ url_for('about_book', id = author.id) }}">{{ author.book_name }}</a></br>
     <br> {{ author.publication_date }}<br>
     <br> {{ author.book_annotation }}<br>
@@ -38,7 +38,7 @@
 
     
     {% for num in isbn %}
-    <br><a href="{{ url_for('profile', id = num.id) }}">{{ name_of_author }}</a><br>
+    <br><a href="{{ url_for('profile', id = num.id) }}">{{ name_of_author[num] }}</a><br>
     <br><a href="{{ url_for('about_book', id = num.id) }}">{{ num.book_name }}</a><br>
     <br> {{ num.publication_date }}<br>
     <br> {{ num.book_annotation }}<br>
