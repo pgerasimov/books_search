@@ -135,7 +135,7 @@ def create_app():
             book_name = api_request[0]
             books_by_author_id = api_request[1]
             isbn = books_by_author_id = api_request[2]
-            dict_book_author = db_request[3]
+            dict_book_author = api_request[3]
 
         return render_template('search_result.html', page_title=title, book_info=book_name, name_of_author=dict_book_author,
                                author_name=books_by_author_id, isbn=isbn)
