@@ -2,6 +2,7 @@ import requests
 from flask import flash
 from collections import defaultdict
 from webapp.model import db, Books, Authors
+from webapp import create_app
 
 
 # Take book from our DB if exist
@@ -57,14 +58,12 @@ def find_book_in_db(all_args):
 
 # Take book from API and put in DB
 def find_book_in_api(all_args):
-    author = []
     request = all_args['search_by_book_name']
     books_by_author_id = []
     request_data = {'printType': 'books', 'maxResults': '40', 'q': request}
     headers = {'Content-Type': 'application/json'}
     result = requests.get('https://www.googleapis.com/books/v1/volumes', params=request_data, headers=headers).json()
 
-    from webapp import create_app
     app = create_app()
 
     with app.app_context():
