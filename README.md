@@ -1,5 +1,4 @@
-.. image:: https://travis-ci.org/pgerasimov/books_search.svg?branch=dev
-    :target: https://travis-ci.org/pgerasimov/books_search
+[![Build Status](https://travis-ci.org/pgerasimov/books_search.svg?branch=dev)](https://travis-ci.org/pgerasimov/books_search)
 
 <h2>BooksSearch</h2>
 
