@@ -49,5 +49,11 @@ class Books(db.Model, UserMixin):
     book_quantity = db.Column(db.Integer, nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
 
-    thread = relationship('Authors')
 
+class CountBook(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer)
+    count = db.Column(db.Integer)
+
+    def __init__(self):
+        self.count = 0

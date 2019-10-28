@@ -1,8 +1,6 @@
 import requests
-from flask import flash
-from collections import defaultdict
+from flask import flash, app
 from webapp.model import db, Books, Authors
-from webapp import create_app
 
 
 # Take book from our DB if exist
@@ -63,8 +61,6 @@ def find_book_in_api(all_args):
     request_data = {'printType': 'books', 'maxResults': '40', 'q': request}
     headers = {'Content-Type': 'application/json'}
     result = requests.get('https://www.googleapis.com/books/v1/volumes', params=request_data, headers=headers).json()
-
-    app = create_app()
 
     with app.app_context():
         for book in range(40):

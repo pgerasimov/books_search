@@ -1,7 +1,7 @@
-from webapp.model import db, Users, Books
 import pytest
 from flask import Flask
 from webapp import create_app
+from webapp.model import db, Users, Books
 
 app = Flask(__name__)
 db.init_app(app)
@@ -27,7 +27,7 @@ def init_database():
 
         db.session.commit()
 
-        yield db
+    yield db
 
 def test_new_user(new_user, init_database):
     assert new_user.email == 'serg@gmail.com'
