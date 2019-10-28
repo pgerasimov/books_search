@@ -1,3 +1,4 @@
-web: python __init__.py
+
+web: python ./run.sh
 heroku ps:scale web=1
 
