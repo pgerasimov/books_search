@@ -1,4 +1,3 @@
-
-web: python ./run.sh
+web: gunicorn app:webapp
 heroku ps:scale web=1
 
