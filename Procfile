@@ -1,4 +1,3 @@
-web: gunicorn runp-heroku:webapp
-init: python create_db.py 
+web: python ./run.sh
 heroku ps:scale web=1
 
