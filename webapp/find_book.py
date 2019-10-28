@@ -1,7 +1,8 @@
 import requests
-from flask import flash, app
+from flask import Flask, flash
 from webapp.model import db, Books, Authors
 
+app = Flask(__name__)
 
 # Take book from our DB if exist
 def find_book_in_db(all_args):
