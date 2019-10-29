@@ -55,7 +55,7 @@ def create_app():
         else:
             flash('Неправильное имя пользователя или пароль')
             logging.error('Неправильное имя пользователя или пароль')
-            return redirect(url_for('login'))
+            return redirect(url_for('index'))
 
 
     @app.route('/registration')
