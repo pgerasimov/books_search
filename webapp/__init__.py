@@ -8,7 +8,7 @@ from flask_login import (
                     )
 from webapp.find_book import find_book_in_db, find_book_in_api
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
-from flask_migrate import Migrate
+# from flask_migrate import Migrate
 from webapp.model import db, Users, SearchRequest, Authors, Books, CountBook
 import logging
 
@@ -17,7 +17,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db.init_app(app)
-    migrate = Migrate(app, db)
+    # migrate = Migrate(app, db)
 
     logging.basicConfig(filename='app.log',
                         filemode='w',
@@ -98,13 +98,12 @@ def create_app():
 
             username = form.username_reg.data
             password = form.password_reg.data
-            password_confirm = form.password_reg_confirm.data
+            # password_confirm = form.password_reg_confirm.data
 
             if Users.query.filter(Users.email == username).count():
                 flash('Такой пользователь уже есть')
                 logging.error('Такой пользователь уже есть')
                 return redirect(url_for('registration'))
-
 
             new_user = Users(email=username)
             new_user.set_password(password)
