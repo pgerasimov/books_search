@@ -45,18 +45,23 @@ def create_app():
     @app.route('/process-login', methods=['POST'])
     def process_login():
         form = LoginForm()
-        user = Users.query.filter_by(email=form.username.data).first()
 
-        if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            flash('Вы вошли на сайт')
-            return redirect(url_for('search'))
+        if form.validate_on_submit():
+            user = Users.query.filter_by(email=form.username.data).first()
 
+            if user and user.check_password(form.password.data):
+                login_user(user, remember=form.remember_me.data)
+                flash('Вы вошли на сайт')
+                return redirect(url_for('search'))
+
+            else:
+                flash('Неправильное имя пользователя или пароль')
+                logging.error('Неправильное имя пользователя или пароль')
+                return redirect(url_for('index'))
         else:
-            flash('Неправильное имя пользователя или пароль')
-            logging.error('Неправильное имя пользователя или пароль')
+            flash('Что-то пошло не так, попробуйте позже')
+            logging.error('Ошибка валидации формы')
             return redirect(url_for('index'))
-
 
     @app.route('/registration')
     def registration():
