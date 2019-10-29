@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pgerasimov/books_search.svg?branch=dev)](https://travis-ci.org/pgerasimov/books_search)
+[![Build Status](https://travis-ci.org/pgerasimov/books_search.svg?branch=master)](https://travis-ci.org/pgerasimov/books_search)
 
 <h2>BooksSearch</h2>
 
