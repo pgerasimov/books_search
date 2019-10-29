@@ -57,6 +57,10 @@ def create_app():
                 flash('Неправильное имя пользователя или пароль')
                 logging.error('Неправильное имя пользователя или пароль')
                 return redirect(url_for('login'))
+        else:
+            flash('Не прошла валидация формы')
+            logging.error('Не прошла валидация формы')
+            return redirect(url_for('login'))
 
     @app.route('/registration')
     def registration():
