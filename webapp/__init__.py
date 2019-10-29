@@ -45,18 +45,23 @@ def create_app():
     @app.route('/process-login', methods=['POST'])
     def process_login():
         form = LoginForm()
-        user = Users.query.filter_by(email=form.username.data).first()
 
-        if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            flash('Вы вошли на сайт')
-            return redirect(url_for('search'))
+        if form.validate_on_submit():
+            user = Users.query.filter_by(email=form.username.data).first()
 
+            if user and user.check_password(form.password.data):
+                login_user(user, remember=form.remember_me.data)
+                flash('Вы вошли на сайт')
+                return redirect(url_for('search'))
+
+            else:
+                flash('Неправильное имя пользователя или пароль')
+                logging.error('Неправильное имя пользователя или пароль')
+                return redirect(url_for('index'))
         else:
-            flash('Неправильное имя пользователя или пароль')
-            logging.error('Неправильное имя пользователя или пароль')
+            flash('Что-то пошло не так, попробуйте позже')
+            logging.error('Ошибка валидации формы')
             return redirect(url_for('index'))
-
 
     @app.route('/registration')
     def registration():
@@ -72,6 +77,7 @@ def create_app():
     def process_registration():
 
         form = RegistrationForm()
+
         if form.validate_on_submit():
 
             username = form.username_reg.data
@@ -83,9 +89,6 @@ def create_app():
                 logging.error('Такой пользователь уже есть')
                 return redirect(url_for('registration'))
 
-            if not password == password_confirm:
-                flash('Пароли не совпадают. Повторите ввод')
-                return redirect(url_for('registration'))
 
             new_user = Users(email=username)
             new_user.set_password(password)
@@ -95,9 +98,9 @@ def create_app():
             flash('Вы успешно зарегистрировались')
             return redirect(url_for('index'))
 
-        flash('Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+        flash('Пароли не совпадают. Повторите ввод')
         logging.error(
-            'Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+            'Форма не провалидировалась, Пароли не совпадают.')
         return redirect(url_for('registration'))
 
     @app.route('/logout')
@@ -127,7 +130,6 @@ def create_app():
         dict_book_author = db_request[3]
 
         if book_name == [] and books_by_author_id == [] and isbn == [] and all_args['search_by_book_name'] != '':
-
             api_request = find_book_in_api(all_args)
 
             book_name = api_request[0]
@@ -135,7 +137,8 @@ def create_app():
             isbn = books_by_author_id = api_request[2]
             dict_book_author = api_request[3]
 
-        return render_template('search_result.html', page_title=title, book_info=book_name, name_of_author=dict_book_author,
+        return render_template('search_result.html', page_title=title, book_info=book_name,
+                               name_of_author=dict_book_author,
                                author_name=books_by_author_id, isbn=isbn)
 
     @app.route('/profile/<id>')
