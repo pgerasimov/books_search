@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pgerasimov/books_search.svg?branch=dev)](https://travis-ci.org/pgerasimov/books_search)
+
 <h2>BooksSearch</h2>
 
 <h3>Overview</h3>
