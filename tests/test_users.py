@@ -29,6 +29,7 @@ def init_database():
 
     yield db
 
+
 def test_new_user(new_user, init_database):
     assert new_user.email == 'serg@gmail.com'
     assert new_user.password == '123456789asdf'
@@ -74,10 +75,20 @@ def add_books():
     with app.app_context():
         db.create_all()
 
-        book1 = Books(book_name='uniq book 7777', isbn='7777', book_publisher='Test Corp 7777', book_genre='7777',
-                        book_annotation='Уникальное описание книги 7777', author_id='7777')
-        book2 = Books(book_name='uniq book 8888', isbn='8888', book_publisher='Test Corp 8888', book_genre='8888',
-                        book_annotation='Уникальное описание книги 8888', author_id='8888')
+        book1 = Books(
+            book_name='uniq book 7777',
+            isbn='7777',
+            book_publisher='Test Corp 7777',
+            book_genre='7777',
+            book_annotation='Уникальное описание книги 7777',
+            author_id='7777')
+        book2 = Books(
+            book_name='uniq book 8888',
+            isbn='8888',
+            book_publisher='Test Corp 8888',
+            book_genre='8888',
+            book_annotation='Уникальное описание книги 8888',
+            author_id='8888')
 
         db.session.add(book1)
         db.session.add(book2)

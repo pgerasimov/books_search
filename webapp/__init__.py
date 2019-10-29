@@ -1,5 +1,11 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
-from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from flask_login import (
+                        LoginManager,
+                        login_user,
+                        logout_user,
+                        current_user,
+                        login_required
+                    )
 from webapp.find_book import find_book_in_db, find_book_in_api
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
@@ -40,7 +46,12 @@ def create_app():
 
         title = "Авторизация"
         login_form = LoginForm()
-        return render_template('login.html', page_title=title, form=login_form, active='login')
+        return render_template(
+            'login.html',
+            page_title=title,
+            form=login_form,
+            active='login'
+        )
 
     @app.route('/process-login', methods=['POST'])
     def process_login():
@@ -71,7 +82,12 @@ def create_app():
 
         title = "Регистрация"
         registration_form = RegistrationForm()
-        return render_template('registration.html', page_title=title, form=registration_form, active='registration')
+        return render_template(
+            'registration.html',
+            page_title=title,
+            form=registration_form,
+            active='registration'
+        )
 
     @app.route('/process_registration', methods=['POST'])
     def process_registration():
@@ -114,7 +130,12 @@ def create_app():
     def search():
         title = "Поиск книги"
         search_form = SearchForm()
-        return render_template('search.html', page_title=title, form=search_form, active='search')
+        return render_template(
+            'search.html',
+            page_title=title,
+            form=search_form,
+            active='search'
+        )
 
     @app.route('/process-search', methods=['POST'])
     def process_search():
@@ -129,7 +150,13 @@ def create_app():
         isbn = db_request[2]
         dict_book_author = db_request[3]
 
-        if book_name == [] and books_by_author_id == [] and isbn == [] and all_args['search_by_book_name'] != '':
+        if (
+            book_name == [] and
+            books_by_author_id == [] and
+            isbn == [] and
+            all_args['search_by_book_name'] != ''
+        ):
+
             api_request = find_book_in_api(all_args)
 
             book_name = api_request[0]
@@ -137,9 +164,13 @@ def create_app():
             isbn = books_by_author_id = api_request[2]
             dict_book_author = api_request[3]
 
-        return render_template('search_result.html', page_title=title, book_info=book_name,
-                               name_of_author=dict_book_author,
-                               author_name=books_by_author_id, isbn=isbn)
+        return render_template(
+            'search_result.html',
+            page_title=title,
+            book_info=book_name,
+            name_of_author=dict_book_author,
+            author_name=books_by_author_id,
+            isbn=isbn)
 
     @app.route('/profile/<id>')
     def profile(id):
@@ -147,16 +178,25 @@ def create_app():
         all_books_of_author = Books.query.filter_by(author_id=id).all()
         for person in all_books_of_author:
             authors = Authors.query.filter_by(id=person.author_id)[0]
-            return render_template('profile.html', page_title=title, person=authors)
+            return render_template(
+                'profile.html',
+                page_title=title,
+                person=authors
+            )
 
     @app.route('/about_book/<id>')
     def about_book(id):
         title = "О книге"
         books = Books.query.filter_by(id=id).all()
         for book in books:
-            all_search_requests = SearchRequest.query.filter_by(id=book.id).all()
+            all_search_requests = SearchRequest.query.filter_by(
+                id=book.id
+            ).all()
             if all_search_requests == []:
-                book_name_request = SearchRequest(request_text=book.book_name, id=book.id)
+                book_name_request = SearchRequest(
+                    request_text=book.book_name,
+                    id=book.id
+                )
                 db.session.add(book_name_request)
                 v = CountBook()
                 v.book_id = book.id
