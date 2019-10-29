@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Regexp
 
 regexp = r'(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\S+]{8,}'
@@ -11,6 +11,9 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()],
                              render_kw={"class": "form-control", "placeholder": "Enter Password", "type": "password"})
     submit = SubmitField('Войти', render_kw={"class": "btn btn-primary", "Type": "submit"})
+    remember_me = BooleanField('Запомнить меня', default=True, render_kw={"class": "form-check-input"})
+
+
 
 
 class RegistrationForm(FlaskForm):

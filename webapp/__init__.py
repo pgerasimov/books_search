@@ -48,7 +48,7 @@ def create_app():
         user = Users.query.filter_by(email=form.username.data).first()
 
         if user and user.check_password(form.password.data):
-            login_user(user)
+            login_user(user, remember=form.remember_me.data)
             flash('Вы вошли на сайт')
             return redirect(url_for('search'))
 
