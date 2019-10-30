@@ -206,6 +206,6 @@ def create_app():
                 all_counts[0].count += 1
                 db.session.add(all_counts[0])
                 db.session.commit()
-        return render_template('book.html', page_title=title, book=book)
+        return render_template('book.html', page_title=title, book=book, image=book.book_image)
 
     return app
