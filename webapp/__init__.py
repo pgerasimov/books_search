@@ -1,14 +1,13 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
 from flask_login import (
-                        LoginManager,
-                        login_user,
-                        logout_user,
-                        current_user,
-                        login_required
-                    )
+    LoginManager,
+    login_user,
+    logout_user,
+    current_user,
+    login_required)
 from webapp.find_book import find_book_in_db, find_book_in_api
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
-# from flask_migrate import Migrate
+from flask_migrate import Migrate
 from webapp.model import db, Users, SearchRequest, Authors, Books, CountBook
 import logging
 
@@ -17,7 +16,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db.init_app(app)
-    # migrate = Migrate(app, db)
+    migrate = Migrate(app, db)
 
     logging.basicConfig(filename='app.log',
                         filemode='w',
@@ -150,10 +149,10 @@ def create_app():
         dict_book_author = db_request[3]
 
         if (
-            book_name == [] and
-            books_by_author_id == [] and
-            isbn == [] and
-            all_args['search_by_book_name'] != ''
+            book_name == []
+            and books_by_author_id == []
+            and isbn == []
+            and all_args['search_by_book_name'] != ''
         ):
 
             api_request = find_book_in_api(all_args)
