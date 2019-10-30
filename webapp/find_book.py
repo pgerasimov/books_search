@@ -65,10 +65,10 @@ def find_book_in_api(all_args):
     request_data = {'printType': 'books', 'maxResults': '40', 'q': request}
     headers = {'Content-Type': 'application/json'}
     result = requests.get(
-                            'https://www.googleapis.com/books/v1/volumes',
-                            params=request_data,
-                            headers=headers
-                        ).json()
+        'https://www.googleapis.com/books/v1/volumes',
+        params=request_data,
+        headers=headers
+    ).json()
 
     with app.app_context():
         for book in range(40):
@@ -97,6 +97,10 @@ def find_book_in_api(all_args):
             genre = (
                 source['categories'][0] if 'categories' in source
                 else 'No_genre')
+            image = (
+                source['imageLinks']['smallThumbnail']
+                if 'imageLinks' in source
+                else 'No_image')
 
             author_in_db = Authors.query.filter_by(name=author).first()
 
@@ -113,7 +117,8 @@ def find_book_in_api(all_args):
                     book_publisher=publisher,
                     book_genre=genre,
                     book_annotation=description,
-                    author_id=new_author.id
+                    author_id=new_author.id,
+                    book_image=image
                 )
                 db.session.add(new_book)
                 db.session.commit()
@@ -129,7 +134,9 @@ def find_book_in_api(all_args):
                     book_publisher=publisher,
                     book_genre=genre,
                     book_annotation=description,
-                    author_id=author_in_db.id)
+                    author_id=author_in_db.id,
+                    book_image=image
+                )
                 db.session.add(new_book)
                 db.session.commit()
 
