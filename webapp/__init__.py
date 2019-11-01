@@ -92,7 +92,6 @@ def create_app():
 
             username = form.username_reg.data
             password = form.password_reg.data
-            # password_confirm = form.password_reg_confirm.data
 
             if Users.query.filter(Users.email == username).count():
                 flash('Такой пользователь уже есть')
