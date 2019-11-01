@@ -9,6 +9,6 @@ script:
 deploy:
   provider: heroku
   app:
-    dev: my-production-application
+    dev: lp-bs
   api_key:
     secure: "c4bfeca6-f121-4738-946e-bb82df46e927"
