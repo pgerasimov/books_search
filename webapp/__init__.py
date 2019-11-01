@@ -107,9 +107,9 @@ def create_app():
             flash('Вы успешно зарегистрировались')
             return redirect(url_for('index'))
 
-        flash('Пароли не совпадают. Повторите ввод')
+        flash('Пароль не удовлетворяет требованиям. Повторите ввод')
         logging.error(
-            'Форма не провалидировалась, Пароли не совпадают.')
+            'Форма не провалидировалась, Ошибка в пароле.')
         return redirect(url_for('registration'))
 
     @app.route('/logout')
