@@ -9,5 +9,5 @@ script:
 deploy:
   provider: heroku
   api_key:
-    secure: "a8793c72-ce50-4e92-ba39-4dfbb4a1602c"
-  app: books_search
+    secure: "c4bfeca6-f121-4738-946e-bb82df46e927"
+  app: lp-bs
