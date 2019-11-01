@@ -67,6 +67,7 @@ def create_app():
             flash('Неправильное имя пользователя или пароль')
             logging.error('Неправильное имя пользователя или пароль')
             return redirect(url_for('index'))
+        return 'test for digitalocean'
 
     @app.route('/registration')
     def registration():
@@ -143,12 +144,11 @@ def create_app():
         dict_book_author = db_request[3]
 
         if (
-            book_name == []
-            and books_by_author_id == []
-            and isbn == []
-            and all_args['search_by_book_name'] != ''
+                book_name == []
+                and books_by_author_id == []
+                and isbn == []
+                and all_args['search_by_book_name'] != ''
         ):
-
             api_request = find_book_in_api(all_args)
 
             book_name = api_request[0]
