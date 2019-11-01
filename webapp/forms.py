@@ -10,25 +10,25 @@ class LoginForm(FlaskForm):
         'Email',
         validators=[DataRequired()],
         render_kw={
-                    "class": "form-control",
-                    "placeholder": "Enter email",
-                    "type": "email"})
+            "class": "form-control",
+            "placeholder": "Enter email",
+            "type": "email"})
     password = PasswordField(
         'Password',
         validators=[DataRequired()],
         render_kw={
-                    "class": "form-control",
-                    "placeholder": "Enter Password",
-                    "type": "password"})
+            "class": "form-control",
+            "placeholder": "Enter Password",
+            "type": "password"})
     submit = SubmitField(
         'Войти',
         render_kw={
-                    "class": "btn btn-primary",
-                    "Type": "submit"})
+            "class": "btn btn-primary",
+            "Type": "submit"})
     remember_me = BooleanField(
-                                'Запомнить меня',
-                                default=True,
-                                render_kw={"class": "form-check-input"})
+        'Запомнить меня',
+        default=True,
+        render_kw={"class": "form-check-input"})
 
 
 class RegistrationForm(FlaskForm):
@@ -36,15 +36,15 @@ class RegistrationForm(FlaskForm):
         'Email',
         validators=[DataRequired()],
         render_kw={
-                    "class": "form-control",
-                    "placeholder": "Enter email",
-                    "type": "email"})
+            "class": "form-control",
+            "placeholder": "Enter email",
+            "type": "email"})
     password_reg = PasswordField(
         'Password',
         validators=[
-                    DataRequired(),
-                    Regexp(regexp)
-                ],
+            DataRequired(),
+            Regexp(regexp)
+        ],
         render_kw={
             "class": "form-control",
             "placeholder": "Enter Password",
@@ -52,24 +52,28 @@ class RegistrationForm(FlaskForm):
     password_reg_confirm = PasswordField(
         'Password',
         validators=[
-                    DataRequired(),
-                    Regexp(regexp),
-                    EqualTo('password_reg')
-                ])
+            DataRequired(),
+            Regexp(regexp),
+            EqualTo('password_reg')
+        ],
+        render_kw={
+            "class": "form-control",
+            "placeholder": "Enter Password",
+            "type": "password"})
     submit_reg = SubmitField(
-                            'Зарегистрироваться',
-                            render_kw={
-                                        "class": "btn btn-primary",
-                                        "Type": "submit"})
+        'Зарегистрироваться',
+        render_kw={
+            "class": "btn btn-primary",
+            "Type": "submit"})
 
 
 class SearchForm(FlaskForm):
     search_by_book_name = StringField(
         'Поиск по названию книги',
         render_kw={
-                    "class": "form-control",
-                    "placeholder": "Введите название книги",
-                    "type": "text"})
+            "class": "form-control",
+            "placeholder": "Введите название книги",
+            "type": "text"})
 
     search_by_author_name = StringField(
         'Поиск по автору книги',
