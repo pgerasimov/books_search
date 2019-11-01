@@ -3,7 +3,11 @@ import requests
 
 def get_token():
 
-    request_data = {'login': 'login', 'type': 'patient', 'password': 'password'}
+    request_data = {
+        'login': 'login',
+        'type': 'patient',
+        'password': 'password'
+    }
 
     headers = {'Content-Type': 'application/json'}
 
