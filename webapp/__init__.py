@@ -46,21 +46,16 @@ def create_app():
     def process_login():
         form = LoginForm()
 
-        if form.validate_on_submit():
-            user = Users.query.filter_by(email=form.username.data).first()
+        user = Users.query.filter_by(email=form.username.data).first()
 
-            if user and user.check_password(form.password.data):
-                login_user(user, remember=form.remember_me.data)
-                flash('Вы вошли на сайт')
-                return redirect(url_for('search'))
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            flash('Вы вошли на сайт')
+            return redirect(url_for('search'))
 
-            else:
-                flash('Неправильное имя пользователя или пароль')
-                logging.error('Неправильное имя пользователя или пароль')
-                return redirect(url_for('index'))
         else:
-            flash('Что-то пошло не так, попробуйте позже')
-            logging.error('Ошибка валидации формы')
+            flash('Неправильное имя пользователя или пароль')
+            logging.error('Неправильное имя пользователя или пароль')
             return redirect(url_for('index'))
 
     @app.route('/registration')
@@ -88,7 +83,6 @@ def create_app():
                 flash('Такой пользователь уже есть')
                 logging.error('Такой пользователь уже есть')
                 return redirect(url_for('registration'))
-
 
             new_user = Users(email=username)
             new_user.set_password(password)
