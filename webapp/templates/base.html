@@ -13,6 +13,8 @@
 
 
 
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand">Books Search</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +44,7 @@
         <a class="nav-link" href="/search">Search</a>
       </li>
           </li>
-      <li class="nav-item" style="margin-left:1600px">
+      <li class="nav-item" style="margin-left:1100%">
       <a class="nav-link" href="/logout">Logout</a>
       </li>
 
@@ -51,6 +53,9 @@
 
    </ul>
   </div>
+
+
+
 </nav>
 
   {% with messages = get_flashed_messages() %}
@@ -64,11 +69,15 @@
 {% endwith %}
 
     {% block content %}
+
+
+
+
       <div class="container">
 
                 <br><br>
 
-<h3>Авторизация</h3>
+<h3>Авторизация - test do</h3>
 
 <form action="{{ url_for('process_login') }}" method="post">
   {{ form.hidden_tag() }}
@@ -83,7 +92,10 @@
     {{ form.password.label }}<br>
     {{ form.password() }}
   </div>
-
+<div class="form-group form-check">
+    {{ form.remember_me() }}
+    {{ form.remember_me.label(class_='form-check-label') }}
+</div>
   <div>
     {{ form.submit }}
   </div>

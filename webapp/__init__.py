@@ -1,5 +1,10 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
-from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from flask_login import (
+    LoginManager,
+    login_user,
+    logout_user,
+    current_user,
+    login_required)
 from webapp.find_book import find_book_in_db, find_book_in_api
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
@@ -40,23 +45,29 @@ def create_app():
 
         title = "Авторизация"
         login_form = LoginForm()
-        return render_template('login.html', page_title=title, form=login_form, active='login')
+        return render_template(
+            'login.html',
+            page_title=title,
+            form=login_form,
+            active='login'
+        )
 
     @app.route('/process-login', methods=['POST'])
     def process_login():
         form = LoginForm()
-        if form.validate_on_submit():
-            user = Users.query.filter_by(email=form.username.data).first()
 
-            if user and user.check_password(form.password.data):
-                login_user(user)
-                flash('Вы вошли на сайт')
-                return redirect(url_for('search'))
+        user = Users.query.filter_by(email=form.username.data).first()
 
-            else:
-                flash('Неправильное имя пользователя или пароль')
-                logging.error('Неправильное имя пользователя или пароль')
-                return redirect(url_for('login'))
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            flash('Вы вошли на сайт')
+            return redirect(url_for('search'))
+
+        else:
+            flash('Неправильное имя пользователя или пароль')
+            logging.error('Неправильное имя пользователя или пароль')
+            return redirect(url_for('index'))
+        return 'test for digitalocean'
 
     @app.route('/registration')
     def registration():
@@ -66,25 +77,26 @@ def create_app():
 
         title = "Регистрация"
         registration_form = RegistrationForm()
-        return render_template('registration.html', page_title=title, form=registration_form, active='registration')
+        return render_template(
+            'registration.html',
+            page_title=title,
+            form=registration_form,
+            active='registration'
+        )
 
     @app.route('/process_registration', methods=['POST'])
     def process_registration():
 
         form = RegistrationForm()
+
         if form.validate_on_submit():
 
             username = form.username_reg.data
             password = form.password_reg.data
-            password_confirm = form.password_reg_confirm.data
 
             if Users.query.filter(Users.email == username).count():
                 flash('Такой пользователь уже есть')
                 logging.error('Такой пользователь уже есть')
-                return redirect(url_for('registration'))
-
-            if not password == password_confirm:
-                flash('Пароли не совпадают. Повторите ввод')
                 return redirect(url_for('registration'))
 
             new_user = Users(email=username)
@@ -95,9 +107,9 @@ def create_app():
             flash('Вы успешно зарегистрировались')
             return redirect(url_for('index'))
 
-        flash('Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+        flash('Пароль не удовлетворяет требованиям. Повторите ввод')
         logging.error(
-            'Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+            'Форма не провалидировалась, Ошибка в пароле.')
         return redirect(url_for('registration'))
 
     @app.route('/logout')
@@ -111,7 +123,12 @@ def create_app():
     def search():
         title = "Поиск книги"
         search_form = SearchForm()
-        return render_template('search.html', page_title=title, form=search_form, active='search')
+        return render_template(
+            'search.html',
+            page_title=title,
+            form=search_form,
+            active='search'
+        )
 
     @app.route('/process-search', methods=['POST'])
     def process_search():
@@ -126,8 +143,12 @@ def create_app():
         isbn = db_request[2]
         dict_book_author = db_request[3]
 
-        if book_name == [] and books_by_author_id == [] and isbn == [] and all_args['search_by_book_name'] != '':
-
+        if (
+                book_name == []
+                and books_by_author_id == []
+                and isbn == []
+                and all_args['search_by_book_name'] != ''
+        ):
             api_request = find_book_in_api(all_args)
 
             book_name = api_request[0]
@@ -135,8 +156,13 @@ def create_app():
             isbn = books_by_author_id = api_request[2]
             dict_book_author = api_request[3]
 
-        return render_template('search_result.html', page_title=title, book_info=book_name, name_of_author=dict_book_author,
-                               author_name=books_by_author_id, isbn=isbn)
+        return render_template(
+            'search_result.html',
+            page_title=title,
+            book_info=book_name,
+            name_of_author=dict_book_author,
+            author_name=books_by_author_id,
+            isbn=isbn)
 
     @app.route('/profile/<id>')
     def profile(id):
@@ -144,16 +170,25 @@ def create_app():
         all_books_of_author = Books.query.filter_by(author_id=id).all()
         for person in all_books_of_author:
             authors = Authors.query.filter_by(id=person.author_id)[0]
-            return render_template('profile.html', page_title=title, person=authors)
+            return render_template(
+                'profile.html',
+                page_title=title,
+                person=authors
+            )
 
     @app.route('/about_book/<id>')
     def about_book(id):
         title = "О книге"
         books = Books.query.filter_by(id=id).all()
         for book in books:
-            all_search_requests = SearchRequest.query.filter_by(id=book.id).all()
+            all_search_requests = SearchRequest.query.filter_by(
+                id=book.id
+            ).all()
             if all_search_requests == []:
-                book_name_request = SearchRequest(request_text=book.book_name, id=book.id)
+                book_name_request = SearchRequest(
+                    request_text=book.book_name,
+                    id=book.id
+                )
                 db.session.add(book_name_request)
                 v = CountBook()
                 v.book_id = book.id
@@ -165,6 +200,6 @@ def create_app():
                 all_counts[0].count += 1
                 db.session.add(all_counts[0])
                 db.session.commit()
-        return render_template('book.html', page_title=title, book=book)
+        return render_template('book.html', page_title=title, book=book, image=book.book_image)
 
     return app
