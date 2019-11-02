@@ -38,8 +38,8 @@ def find_book_in_db(all_args):
 
     if check_author:
         books_by_author_id = Books.query.filter_by(
-                                                author_id=check_author[0].id
-                                            ).all()
+            author_id=check_author[0].id
+        ).all()
         for book in books_by_author_id:
             name_of_author = Authors.query.filter_by(id=book.author_id)[0].name
             dict_book_author[book] = name_of_author
@@ -62,7 +62,7 @@ def find_book_in_db(all_args):
 def find_book_in_api(all_args):
     request = all_args['search_by_book_name']
     books_by_author_id = []
-    request_data = {'printType': 'books', 'maxResults': '40', 'q': request}
+    request_data = {'printType': 'books', 'maxResults': '40', 'q': request, 'orderBy': 'relevance'}
     headers = {'Content-Type': 'application/json'}
     result = requests.get(
         'https://www.googleapis.com/books/v1/volumes',
@@ -100,7 +100,8 @@ def find_book_in_api(all_args):
             image = (
                 source['imageLinks']['smallThumbnail']
                 if 'imageLinks' in source
-                else 'No_image')
+                else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3Ob-0pmkFhPdOFC4YykH-14mbq5UK8VX9jh' \
+                     'Mbso0QKlIzB34f&sANd9GcR3Ob-0pmkFhPdOFC4YykH-14mbq5UK8VX9jhMbso0QKlIzB34f&s')
 
             author_in_db = Authors.query.filter_by(name=author).first()
 
@@ -109,41 +110,39 @@ def find_book_in_api(all_args):
                 db.session.add(new_author)
                 db.session.commit()
 
-            try:
-                new_book = Books(
-                    book_name=title,
-                    publication_date=publish_date,
-                    isbn=isbn,
-                    book_publisher=publisher,
-                    book_genre=genre,
-                    book_annotation=description,
-                    author_id=new_author.id,
-                    book_image=image
-                )
-                db.session.add(new_book)
-                db.session.commit()
-            except (UnboundLocalError, AttributeError):
-                pass
+                try:
+                    new_book = Books(
+                        book_name=title,
+                        publication_date=publish_date,
+                        isbn=isbn,
+                        book_publisher=publisher,
+                        book_genre=genre,
+                        book_annotation=description,
+                        author_id=new_author.id,
+                        book_image=image
+                    )
+                    db.session.add(new_book)
+                    db.session.commit()
+                except (UnboundLocalError, AttributeError):
+                    pass
 
-        else:
-            try:
-                new_book = Books(
-                    book_name=title,
-                    publication_date=publish_date,
-                    isbn=isbn,
-                    book_publisher=publisher,
-                    book_genre=genre,
-                    book_annotation=description,
-                    author_id=author_in_db.id,
-                    book_image=image
-                )
-                db.session.add(new_book)
-                db.session.commit()
+            else:
+                try:
+                    new_book = Books(
+                        book_name=title,
+                        publication_date=publish_date,
+                        isbn=isbn,
+                        book_publisher=publisher,
+                        book_genre=genre,
+                        book_annotation=description,
+                        author_id=author_in_db.id,
+                        book_image=image
+                    )
+                    db.session.add(new_book)
+                    db.session.commit()
 
-            except (UnboundLocalError, AttributeError):
-                pass
-
-    flash('Книги добавлены в базу из Google Books API')
+                except (UnboundLocalError, AttributeError):
+                    pass
 
     book_name_request = all_args['search_by_book_name'].title()
     search_book = "%{}%".format(book_name_request)
@@ -156,6 +155,11 @@ def find_book_in_api(all_args):
     book_name = Books.query.filter(Books.book_name.like(search_book)).all()
 
     if book_name:
+        flash('Книги добавлены в базу из Google Books API')
+    else:
+        flash('Книги в Google Books API не найдены!')
+
+    if book_name:
         for book in book_name:
             name_of_author = Authors.query.filter_by(id=book.author_id)[0].name
             dict_book_author[book] = name_of_author
@@ -164,7 +168,7 @@ def find_book_in_api(all_args):
 
     check_author = Authors.query.filter_by(
         name=all_args['search_by_author_name']
-        ).all()
+    ).all()
 
     if check_author:
         books_by_author_id = Books.query.filter_by(
