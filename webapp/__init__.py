@@ -173,7 +173,8 @@ def create_app():
             return render_template(
                 'profile.html',
                 page_title=title,
-                person=authors
+                person=authors,
+                author_books = all_books_of_author
             )
 
     @app.route('/about_book/<id>')
