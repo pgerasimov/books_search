@@ -100,8 +100,8 @@ def find_book_in_api(all_args):
             image = (
                 source['imageLinks']['smallThumbnail']
                 if 'imageLinks' in source
-                else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3Ob-0pmkFhPdOFC4YykH-14mbq5UK8VX9jh' \
-                     'Mbso0QKlIzB34f&sANd9GcR3Ob-0pmkFhPdOFC4YykH-14mbq5UK8VX9jhMbso0QKlIzB34f&s')
+                else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3Ob-0pmkFhPdOFC4YykH'
+                     '-14mbq5UK8VX9jhMbso0QKlIzB34f&sANd9GcR3Ob-0pmkFhPdOFC4YykH-14mbq5UK8VX9jhMbso0QKlIzB34f&s')
 
             author_in_db = Authors.query.filter_by(name=author).first()
 
