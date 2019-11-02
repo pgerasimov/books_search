@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 # Take book from our DB if exist
-def find_book_in_db(all_args: list):
+def find_book_in_db(all_args):
     books_by_author_id = []
 
     book_name_request = all_args['search_by_book_name'].title()
