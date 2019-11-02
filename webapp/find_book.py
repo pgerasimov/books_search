@@ -106,7 +106,7 @@ def find_book_in_api(all_args):
             author_in_db = Authors.query.filter_by(name=author).first()
 
             if not author_in_db:
-                new_author = Authors(name=author, author_bio = 'Краткая биография автора - In developing')
+                new_author = Authors(name=author, author_bio='Краткая биография автора - In developing')
                 db.session.add(new_author)
                 db.session.commit()
 

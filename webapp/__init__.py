@@ -174,7 +174,7 @@ def create_app():
                 'profile.html',
                 page_title=title,
                 person=authors,
-                author_books = all_books_of_author
+                author_books=all_books_of_author
             )
 
     @app.route('/about_book/<id>')
