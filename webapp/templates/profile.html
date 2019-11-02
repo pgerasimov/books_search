@@ -5,8 +5,6 @@
 
     <br>
 
-
-
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
 <div class="container">
@@ -15,7 +13,7 @@
             <div class="well well-sm">
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
-                        <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive"/>
+                        <img src="https://ctvalleybrewing.com/wp-content/uploads/2017/04/avatar-placeholder.png" alt="" class="img-rounded img-responsive"/>
                     </div>
                     <div class="col-sm-6 col-md-8">
                         <h4>
@@ -23,23 +21,9 @@
 
                         <p>
 
-                            <i class="glyphicon glyphicon-gift"></i> { date }</p>
+                            <i class="glyphicon glyphicon-gift"></i>    Author's Birthday</p>
                         <!-- Split button -->
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary">
-                                Social
-                            </button>
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <span class="sr-only">Social</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Twitter</a></li>
-                                <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
-                                <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Github</a></li>
-                            </ul>
-                            <br><br><br>
+
                             <div class="btn-group">
                                 <p> {{ person.author_bio }}</p>
                             </div>
@@ -47,8 +31,20 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+        <hr>
+        <br>
+
     </div>
+    <h4>Книги автора</h4>
+            {% for book in author_books %}
+        <ul class="list-group ">
+  <li class="list-group-item"> {{ book.book_name }}</li>
+
+</ul>
+
+    {% endfor %}
+        </div>
 </div>
 
 
