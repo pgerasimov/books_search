@@ -5,7 +5,6 @@ app = create_app()
 
 with app.app_context():
     no_image = Books.query.filter_by(book_image=None)
-    print(no_image)
     for book in no_image:
         book.book_image = \
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3Ob-0pmkFhPdOFC4YykH-14mbq5UK8VX9jh' \
