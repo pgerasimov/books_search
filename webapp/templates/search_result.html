@@ -27,11 +27,9 @@
     <br><a href="{{ url_for('about_book', id = book.id) }}">{{ book.book_name }}</a></br>
     <br> {{ book.publication_date }}<br>
     <br> {{ book.book_annotation }}<br>
-    <br> {{ book.book_image }}<br>
     <br> {{ book.isbn }}<br>
     <br> {{ book.book_genre }}<br>
     <br> {{ book.book_publisher }}<br>
-    <br> {{ book.book_quantity }}<br>
     <hr>
     {% endfor %}
 
@@ -41,11 +39,9 @@
     <br><a href="{{ url_for('about_book', id = author.id) }}">{{ author.book_name }}</a></br>
     <br> {{ author.publication_date }}<br>
     <br> {{ author.book_annotation }}<br>
-    <br> {{ author.book_image }}<br>
     <br> {{ author.isbn }}<br>
     <br> {{ author.book_genre }}<br>
     <br> {{ author.book_publisher }}<br>
-    <br> {{ author.book_quantity }}<br>
     <hr>
     {% endfor %}
 
@@ -55,11 +51,9 @@
     <br><a href="{{ url_for('about_book', id = num.id) }}">{{ num.book_name }}</a><br>
     <br> {{ num.publication_date }}<br>
     <br> {{ num.book_annotation }}<br>
-    <br> {{ num.book_image }}<br>
     <br> {{ num.isbn }}<br>
     <br> {{ num.book_genre }}<br>
     <br> {{ num.book_publisher }}<br>
-    <br> {{ num.book_quantity }}<br>
     <hr>
     {% endfor %}
      {% endif %}

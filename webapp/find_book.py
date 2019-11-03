@@ -72,36 +72,23 @@ def find_book_in_api(all_args):
 
     with app.app_context():
         for book in range(40):
+
             source = result['items'][book]['volumeInfo']
 
-            title = (
-                source['title'].title() if 'title' in source
-                else 'No_title'
-            )
-            author = (
-                source['authors'][0] if 'authors' in source
-                else 'No Author')
-            publisher = (
-                source['publisher'] if 'publisher' in source
-                else 'No_publisher')
-            publish_date = (
-                source['publishedDate'] if 'publishedDate' in source
-                else 'No_publication_date')
-            description = (
-                source['description'] if 'description' in source
-                else 'No_description')
-            isbn = (
-                source['industryIdentifiers'][0]['identifier']
-                if 'identifier' in source
-                else 'No ISBN')
-            genre = (
-                source['categories'][0] if 'categories' in source
-                else 'No_genre')
-            image = (
-                source['imageLinks']['smallThumbnail']
-                if 'imageLinks' in source
-                else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3Ob-0pmkFhPdOFC4YykH'
-                     '-14mbq5UK8VX9jhMbso0QKlIzB34f&sANd9GcR3Ob-0pmkFhPdOFC4YykH-14mbq5UK8VX9jhMbso0QKlIzB34f&s')
+            try:
+                imageLinks = result['items'][book]['volumeInfo']['imageLinks']
+            except(KeyError):
+                pass
+
+
+            title = source.get('title')
+            author = source.get('authors', 'Автор неизвестен')[0]
+            publisher = source.get('publisher', 'Издатель неизвестен')
+            publish_date = source.get('publish_date', 'Дата публикации неизвестна')
+            description = source.get('description', 'Нет описания')
+            isbn = source.get('isbn', 'Нет isbn')
+            image = imageLinks.get('smallThumbnail', 'https://www.freeiconspng.com/img/23494')
+            genre = source.get('genre', 'Жанр неизвестен')
 
             author_in_db = Authors.query.filter_by(name=author).first()
 
