@@ -80,7 +80,6 @@ def find_book_in_api(all_args):
             except(KeyError):
                 pass
 
-
             title = source.get('title')
             author = source.get('authors', 'Автор неизвестен')[0]
             publisher = source.get('publisher', 'Издатель неизвестен')
