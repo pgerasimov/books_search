@@ -52,7 +52,4 @@ class Books(db.Model, UserMixin):
 class CountBook(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer)
-    count = db.Column(db.Integer)
-
-    def __init__(self):
-        self.count = 0
+    visit_data = db.Column(db.Text)
