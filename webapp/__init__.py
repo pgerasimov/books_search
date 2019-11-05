@@ -10,6 +10,9 @@ from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
 from webapp.model import db, Users, SearchRequest, Authors, Books, CountBook
 import logging
+from datetime import date, timedelta
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def create_app():
@@ -181,26 +184,50 @@ def create_app():
     def about_book(id):
         title = "О книге"
         books = Books.query.filter_by(id=id).all()
+
         for book in books:
             all_search_requests = SearchRequest.query.filter_by(
                 id=book.id
             ).all()
+
             if all_search_requests == []:
                 book_name_request = SearchRequest(
                     request_text=book.book_name,
                     id=book.id
                 )
                 db.session.add(book_name_request)
-                v = CountBook()
-                v.book_id = book.id
-                v.count += 1
-                db.session.add(v)
                 db.session.commit()
-            else:
-                all_counts = CountBook.query.filter_by(book_id=book.id).all()
-                all_counts[0].count += 1
-                db.session.add(all_counts[0])
-                db.session.commit()
+
+            v = CountBook()
+            v.book_id = book.id
+            v.visit_data = date.today()
+            db.session.add(v)
+            db.session.commit()
+
+            forSeries = []
+            days = []
+
+            def daterange(month_ago, today):
+                for n in range(int((today - month_ago).days)):
+                    yield month_ago + timedelta(n)
+
+            today = date.today() + timedelta(days=1)
+            month_ago = today + timedelta(days=-30)
+            for single_date in daterange(month_ago, today):
+                sum_visits = len(CountBook.query.filter_by(book_id=book.id, visit_data=single_date).all())
+                forSeries.append(sum_visits)
+                days.append(single_date)
+
+            s = pd.Series(forSeries)
+            fig, ax = plt.subplots()
+            s.plot.bar()
+            ax.set_xlabel('Дни')
+            ax.set_ylabel('Количество просмотров')
+            ax.set_xticklabels(days)
+            ax.set_title('Как часто ищут эту книгу?')
+            fig.savefig('webapp/static/img/plot.png')
+            plt.close()
+
         return render_template('book.html', page_title=title, book=book, image=book.book_image)
 
     return app
