@@ -12,7 +12,7 @@
             <h4>{{ book.book_name }}</h4>
             <p>{{ book.book_annotation }}</p>
         </div>
-        <img src="{{ url_for('static', filename='img/plot.png') }}" alt="histogram">
+        <img src="../static/img/{{book.id}}.png" alt="histogram">
     </div>
 </div>
 

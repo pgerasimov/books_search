@@ -225,7 +225,7 @@ def create_app():
             ax.set_ylabel('Количество просмотров')
             ax.set_xticklabels(days)
             ax.set_title('Как часто ищут эту книгу?')
-            fig.savefig('webapp/static/img/plot.png')
+            fig.savefig('webapp/static/img/{}.png'.format(id))
             plt.close()
 
         return render_template('book.html', page_title=title, book=book, image=book.book_image)
