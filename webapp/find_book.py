@@ -70,8 +70,17 @@ def find_book_in_api(all_args):
         headers=headers
     ).json()
 
+    if result['totalItems'] < 40:
+
+        items_count = result['totalItems']
+    else:
+
+        items_count = 40
+
+    print(result)
+
     with app.app_context():
-        for book in range(40):
+        for book in range(items_count):
 
             source = result['items'][book]['volumeInfo']
 
@@ -81,7 +90,7 @@ def find_book_in_api(all_args):
                 pass
 
             title = source.get('title')
-            author = source.get('authors', 'Автор неизвестен')[0]
+            author = source.get('authors'[0], 'Автор неизвестен')
             publisher = source.get('publisher', 'Издатель неизвестен')
             publish_date = source.get('publish_date', 'Дата публикации неизвестна')
             description = source.get('description', 'Нет описания')
