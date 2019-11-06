@@ -77,8 +77,6 @@ def find_book_in_api(all_args):
 
         items_count = 40
 
-    print(result)
-
     with app.app_context():
         for book in range(items_count):
 
