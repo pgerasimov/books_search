@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # cache
     db.init_app(app)
     migrate = Migrate(app, db)
 
@@ -30,6 +31,19 @@ def create_app():
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'registration'
+
+    @app.after_request
+    def add_header(response):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        response.headers['Cache-Control'] = 'public, max-age=0'
+        return response
+
+    # @app.after_request
+    # def add_header(response):
+    #     response.cache_control.max_age = 0
+    #     return response
 
     @login_manager.user_loader
     def load_user(user_id):
