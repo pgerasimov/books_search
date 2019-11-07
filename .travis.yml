@@ -4,5 +4,12 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  - flake8 .
-  - pytest .
+  - flake8 . --ignore=F841,W503,E126,E123,E501
+  - python3 -m pytest --cov=webapp --cov-report=xml
+deploy:
+  provider: heroku
+  app:
+    dev: lp-bs
+  api_key:
+    secure: "c4bfeca6-f121-4738-946e-bb82df46e927"
+

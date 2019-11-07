@@ -1,13 +1,24 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
-from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from flask_login import (
+    LoginManager,
+    login_user,
+    logout_user,
+    current_user,
+    login_required)
+from webapp.find_book import find_book_in_db, find_book_in_api
 from webapp.forms import LoginForm, RegistrationForm, SearchForm
 from flask_migrate import Migrate
-from webapp.model import db, Users, SearchRequest, Authors, Books
+from webapp.model import db, Users, SearchRequest, Authors, Books, CountBook
 import logging
+from datetime import date, timedelta
+import pandas as pd
+import matplotlib.pyplot as plt
+
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
     db.init_app(app)
     migrate = Migrate(app, db)
 
@@ -21,6 +32,14 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'registration'
 
+    @app.after_request
+    def add_header(response):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        response.headers['Cache-Control'] = 'public, max-age=0'
+        return response
+
     @login_manager.user_loader
     def load_user(user_id):
         return Users.query.get(user_id)
@@ -28,7 +47,7 @@ def create_app():
     @app.route("/")
     def index():
         form = LoginForm()
-        return render_template('base.html', form=form)
+        return render_template('base.html', form=form, active='index')
 
     @app.route('/login')
     def login():
@@ -38,23 +57,29 @@ def create_app():
 
         title = "Авторизация"
         login_form = LoginForm()
-        return render_template('login.html', page_title=title, form=login_form)
+        return render_template(
+            'login.html',
+            page_title=title,
+            form=login_form,
+            active='login'
+        )
 
     @app.route('/process-login', methods=['POST'])
     def process_login():
         form = LoginForm()
-        if form.validate_on_submit():
-            user = Users.query.filter_by(email=form.username.data).first()
 
-            if user and user.check_password(form.password.data):
-                login_user(user)
-                flash('Вы вошли на сайт')
-                return redirect(url_for('search'))
+        user = Users.query.filter_by(email=form.username.data).first()
 
-            else:
-                flash('Неправильное имя пользователя или пароль')
-                logging.error('Неправильное имя пользователя или пароль')
-                return redirect(url_for('login'))
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            flash('Вы вошли на сайт')
+            return redirect(url_for('search'))
+
+        else:
+            flash('Неправильное имя пользователя или пароль')
+            logging.error('Неправильное имя пользователя или пароль')
+            return redirect(url_for('index'))
+        return 'test for digitalocean'
 
     @app.route('/registration')
     def registration():
@@ -64,12 +89,18 @@ def create_app():
 
         title = "Регистрация"
         registration_form = RegistrationForm()
-        return render_template('registration.html', page_title=title, form=registration_form)
+        return render_template(
+            'registration.html',
+            page_title=title,
+            form=registration_form,
+            active='registration'
+        )
 
     @app.route('/process_registration', methods=['POST'])
     def process_registration():
 
         form = RegistrationForm()
+
         if form.validate_on_submit():
 
             username = form.username_reg.data
@@ -88,9 +119,9 @@ def create_app():
             flash('Вы успешно зарегистрировались')
             return redirect(url_for('index'))
 
-        flash('Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+        flash('Пароль не удовлетворяет требованиям. Повторите ввод')
         logging.error(
-            'Пароль должен содержать хотя бы одну заглавную букву, хотя бы одну цифру и быть не менее 8 символов')
+            'Форма не провалидировалась, Ошибка в пароле.')
         return redirect(url_for('registration'))
 
     @app.route('/logout')
@@ -104,35 +135,109 @@ def create_app():
     def search():
         title = "Поиск книги"
         search_form = SearchForm()
-        return render_template('search.html', page_title=title, form=search_form)
+        return render_template(
+            'search.html',
+            page_title=title,
+            form=search_form,
+            active='search'
+        )
 
     @app.route('/process-search', methods=['POST'])
     def process_search():
         title = "Поиск книги"
         all_args = request.form.to_dict()
-        author_id = ''
+        all_args.pop('csrf_token')
+        all_args.pop('submit_search')
 
-        book_name = Books.query.filter_by(book_name=all_args['search_by_book_name']).all()
+        db_request = find_book_in_db(all_args)
+        book_name = db_request[0]
+        books_by_author_id = db_request[1]
+        isbn = db_request[2]
+        dict_book_author = db_request[3]
 
-        # TODO: Пофиксить баг когда авторов несколько
-        author_object = Authors.query.filter_by(name=all_args['search_by_author_name']).all()
-        for author in author_object:
-            author_id = author.id
-        author_books_id = Books.query.filter_by(author_id=author_id).all()
+        if (
+                book_name == []
+                and books_by_author_id == []
+                and isbn == []
+                and all_args['search_by_book_name'] != ''
+        ):
+            api_request = find_book_in_api(all_args)
 
-        isbn = Books.query.filter_by(isbn=all_args['search_by_ISBN']).all()
+            book_name = api_request[0]
+            books_by_author_id = api_request[1]
+            isbn = books_by_author_id = api_request[2]
+            dict_book_author = api_request[3]
 
-        return render_template('search_result.html', page_title=title, book_info=book_name,
-                               author_name=author_books_id, isbn=isbn)
+        return render_template(
+            'search_result.html',
+            page_title=title,
+            book_info=book_name,
+            name_of_author=dict_book_author,
+            author_name=books_by_author_id,
+            isbn=isbn)
 
-    @app.route('/profile')
-    def profile():
+    @app.route('/profile/<id>')
+    def profile(id):
         title = "Об авторе"
-        return render_template('profile.html', page_title=title)
+        all_books_of_author = Books.query.filter_by(author_id=id).all()
+        for person in all_books_of_author:
+            authors = Authors.query.filter_by(id=person.author_id)[0]
+            return render_template(
+                'profile.html',
+                page_title=title,
+                person=authors,
+                author_books=all_books_of_author
+            )
 
-    @app.route('/about_book')
-    def about_book():
+    @app.route('/about_book/<id>')
+    def about_book(id):
         title = "О книге"
-        return render_template('book.html', page_title=title)
+        books = Books.query.filter_by(id=id).all()
+
+        for book in books:
+            all_search_requests = SearchRequest.query.filter_by(
+                id=book.id
+            ).all()
+
+            if all_search_requests == []:
+                book_name_request = SearchRequest(
+                    request_text=book.book_name,
+                    id=book.id
+                )
+                db.session.add(book_name_request)
+                db.session.commit()
+
+            v = CountBook()
+            v.book_id = book.id
+            v.visit_data = date.today()
+            db.session.add(v)
+            db.session.commit()
+
+            forSeries = []
+            days = []
+
+            def daterange(month_ago, today):
+                for n in range(int((today - month_ago).days)):
+                    yield month_ago + timedelta(n)
+
+            today = date.today() + timedelta(days=1)
+            month_ago = today + timedelta(days=-30)
+            for single_date in daterange(month_ago, today):
+                sum_visits = len(CountBook.query.filter_by(book_id=book.id, visit_data=single_date).all())
+                forSeries.append(sum_visits)
+                single_date = single_date.strftime("%d")
+                days.append(single_date)
+
+            s = pd.Series(forSeries)
+            fig, ax = plt.subplots()
+            s.plot.bar(rot=0, figsize=(12, 5), fontsize=10, facecolor='blue', edgecolor='black', grid=True)
+            ax.set_xlabel('Дни')
+            ax.set_ylabel('Количество просмотров')
+            ax.set_xticklabels(days)
+            ax.set_title('Как часто ищут эту книгу?')
+            fig.savefig('webapp/static/img/{}.png'.format(id))
+            plt.close()
+
+        return render_template('book.html', page_title=title, book=book, image=book.book_image)
 
     return app

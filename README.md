@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/pgerasimov/books_search.svg?branch=master)](https://travis-ci.org/pgerasimov/books_search)
-
 <h2>BooksSearch</h2>
 
 <h3>Overview</h3>
@@ -11,14 +9,7 @@ The project shows to developers how to work with the APIs, how to configure and 
 
 <h3>Requirements</h3>
 
-<ul>
-  <li>Click==7.0</li>
-  <li>Flask==1.1.1</li>
-  <li>itsdangerous==1.1.0</li>
-  <li>Jinja2==2.10.1</li>
-  <li>MarkupSafe==1.1.1</li>
-  <li>Werkzeug==0.15.6</li>
-</ul>
+Run <code>pip install -r requirements.txt</code> to install dependencies.
 
 
 <h3>Installation</h3>
@@ -26,7 +17,7 @@ The project shows to developers how to work with the APIs, how to configure and 
 <b>BooksSearch</b> requires <b>Python 3.6</b> or higher.
 
 - Clone this repo.
-- At the repo's root, enter in the Terminal: python3 -m pip install . (Tip: don't forget the dot at the end of the command).
+- At the repo's root, enter in the Terminal: <code>python3 -m pip install</code> . (Tip: don't forget the dot at the end of the command).
 
 
 <h3>How to use it?</h3>
