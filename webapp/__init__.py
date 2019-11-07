@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
-    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # cache
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
     db.init_app(app)
     migrate = Migrate(app, db)
 
@@ -39,11 +39,6 @@ def create_app():
         response.headers["Expires"] = "0"
         response.headers['Cache-Control'] = 'public, max-age=0'
         return response
-
-    # @app.after_request
-    # def add_header(response):
-    #     response.cache_control.max_age = 0
-    #     return response
 
     @login_manager.user_loader
     def load_user(user_id):
