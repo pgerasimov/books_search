@@ -18,8 +18,7 @@ Flask-Migrate==2.5.2
 Flask-SQLAlchemy==2.4.0
 Flask-Testing==0.7.1
 Flask-WTF==0.14.2
-goodreads==0.3.2
-goodreads-api-client==0.1.0.dev4
+gunicorn-19.9.
 httplib2==0.14.0
 idna==2.5
 importlib-metadata==0.23
