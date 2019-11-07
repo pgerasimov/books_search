@@ -19,7 +19,7 @@ Run <code>pip install -r requirements.txt</code> to install dependencies.
 <b>BooksSearch</b> requires <b>Python 3.6</b> or higher.
 
 - Clone this repo.
-- At the repo's root, enter in the Terminal: python3 -m pip install . (Tip: don't forget the dot at the end of the command).
+- At the repo's root, enter in the Terminal: <code>python3 -m pip install</code> . (Tip: don't forget the dot at the end of the command).
 
 
 <h3>How to use it?</h3>
