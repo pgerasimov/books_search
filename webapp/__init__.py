@@ -225,11 +225,12 @@ def create_app():
             for single_date in daterange(month_ago, today):
                 sum_visits = len(CountBook.query.filter_by(book_id=book.id, visit_data=single_date).all())
                 forSeries.append(sum_visits)
+                single_date = single_date.strftime("%d")
                 days.append(single_date)
 
             s = pd.Series(forSeries)
             fig, ax = plt.subplots()
-            s.plot.bar()
+            s.plot.bar(rot=0, figsize=(12, 5), fontsize=10, facecolor='blue', edgecolor='black', grid=True)
             ax.set_xlabel('Дни')
             ax.set_ylabel('Количество просмотров')
             ax.set_xticklabels(days)
