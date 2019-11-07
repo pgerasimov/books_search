@@ -88,13 +88,16 @@ def find_book_in_api(all_args):
                 pass
 
             title = source.get('title')
-            author = source.get('authors'[0], 'Автор неизвестен')
+            author = source.get('authors', 'Автор неизвестен')
             publisher = source.get('publisher', 'Издатель неизвестен')
             publish_date = source.get('publish_date', 'Дата публикации неизвестна')
             description = source.get('description', 'Нет описания')
             isbn = source.get('isbn', 'Нет isbn')
             image = imageLinks.get('smallThumbnail', 'https://www.freeiconspng.com/img/23494')
             genre = source.get('genre', 'Жанр неизвестен')
+
+            if not isinstance(author, str):
+                author = ', '.join(author)
 
             author_in_db = Authors.query.filter_by(name=author).first()
 
