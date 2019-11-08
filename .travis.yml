@@ -11,5 +11,5 @@ deploy:
   app:
     master: lp-bs
   api_key:
-    secure: "c4bfeca6-f121-4738-946e-bb82df46e927"
+    secure: "722024bb-5b3d-4e4b-b99d-3d7952290354"
 
