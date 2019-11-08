@@ -94,6 +94,7 @@ def find_book_in_api(all_args):
             except(KeyError):
                 isbn = 'Нет isbn'
 
+
             title = source.get('title')
             author = source.get('authors', 'Автор неизвестен')
             publisher = source.get('publisher', 'Издатель неизвестен')
