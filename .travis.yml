@@ -8,7 +8,6 @@ script:
   - python3 -m pytest --cov=webapp --cov-report=xml
 deploy:
   provider: heroku
-  app: lp-bs
   api_key:
     secure: "56cc9a85-e560-40c2-af9a-df8fc12d78f3"
 
