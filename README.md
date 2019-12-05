@@ -50,4 +50,4 @@ Also, for the convenience of using the site, you will be asked to register (opti
 </ul>
 
 
-<h4 style="color: red;">Deployed project you can find here -</h4><h4>http://lp-bs.herokuapp.com/</h4>
+<b style="color:red">Deployed project you can find here - http://lp-bs.herokuapp.com/</b>
