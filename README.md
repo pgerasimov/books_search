@@ -49,3 +49,5 @@ Also, for the convenience of using the site, you will be asked to register (opti
 <li><b>Mail: sergiishevchenko017@gmail.com</b></li>
 </ul>
 
+
+<h4 style="color: red;">Deployed project you can find here -</h4><h4>http://lp-bs.herokuapp.com/</h4>
