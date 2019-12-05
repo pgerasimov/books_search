@@ -83,21 +83,29 @@ def find_book_in_api(all_args):
             source = result['items'][book]['volumeInfo']
 
             try:
-                imageLinks = result['items'][book]['volumeInfo']['imageLinks']
+                image_link = result['items'][book]['volumeInfo']['imageLinks']
+                image = image_link.get('smallThumbnail')
             except(KeyError):
-                pass
+                image = 'https://www.freeiconspng.com/img/23494'
+
+            try:
+                isbn_link = result['items'][book]['volumeInfo']['industryIdentifiers'][0]
+                isbn = isbn_link.get('identifier')
+            except(KeyError):
+                isbn = 'Нет isbn'
 
             title = source.get('title')
             author = source.get('authors', 'Автор неизвестен')
             publisher = source.get('publisher', 'Издатель неизвестен')
-            publish_date = source.get('publish_date', 'Дата публикации неизвестна')
+            publish_date = source.get('publishedDate', 'Дата публикации неизвестна')
             description = source.get('description', 'Нет описания')
-            isbn = source.get('isbn', 'Нет isbn')
-            image = imageLinks.get('smallThumbnail', 'https://www.freeiconspng.com/img/23494')
-            genre = source.get('genre', 'Жанр неизвестен')
+            genre = source.get('categories', 'Жанр неизвестен')
 
             if not isinstance(author, str):
                 author = ', '.join(author)
+
+            if not isinstance(genre, str):
+                genre = ', '.join(genre)
 
             author_in_db = Authors.query.filter_by(name=author).first()
 
